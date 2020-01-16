@@ -3,19 +3,31 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A03F0F6A23D08DCE00508747 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A03F0F6923D08DCE00508747 /* SignUpViewController.swift */; };
+		A03F0F6C23D08DE000508747 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A03F0F6B23D08DE000508747 /* LoginViewController.swift */; };
+		A03F0F6E23D08DF000508747 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A03F0F6D23D08DF000508747 /* HomeViewController.swift */; };
 		A045039C23CF0BFD00156DE0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A045039B23CF0BFD00156DE0 /* AppDelegate.swift */; };
 		A045039E23CF0BFD00156DE0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A045039D23CF0BFD00156DE0 /* SceneDelegate.swift */; };
 		A04503A023CF0BFD00156DE0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A045039F23CF0BFD00156DE0 /* ViewController.swift */; };
 		A04503A323CF0BFD00156DE0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A04503A123CF0BFD00156DE0 /* Main.storyboard */; };
 		A04503A523CF0BFE00156DE0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A04503A423CF0BFE00156DE0 /* Assets.xcassets */; };
 		A04503A823CF0BFE00156DE0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A04503A623CF0BFE00156DE0 /* LaunchScreen.storyboard */; };
+		A04503B023CF10F400156DE0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A04503AF23CF10F400156DE0 /* GoogleService-Info.plist */; };
+		A0F7A83723D09CAB00FF3428 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F7A83523D09CAB00FF3428 /* Constants.swift */; };
+		A0F7A83823D09CAB00FF3428 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F7A83623D09CAB00FF3428 /* Utilities.swift */; };
+		C27EC402A93C34B43F036F1A /* Pods_Corny.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 864C3D4E5E5A00AE53CF1C92 /* Pods_Corny.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		06F577A5EC83D867FCF8C254 /* Pods-Corny.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Corny.release.xcconfig"; path = "Target Support Files/Pods-Corny/Pods-Corny.release.xcconfig"; sourceTree = "<group>"; };
+		864C3D4E5E5A00AE53CF1C92 /* Pods_Corny.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Corny.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A03F0F6923D08DCE00508747 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		A03F0F6B23D08DE000508747 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		A03F0F6D23D08DF000508747 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		A045039823CF0BFD00156DE0 /* Corny.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Corny.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A045039B23CF0BFD00156DE0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A045039D23CF0BFD00156DE0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -24,6 +36,10 @@
 		A04503A423CF0BFE00156DE0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A04503A723CF0BFE00156DE0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A04503A923CF0BFE00156DE0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A04503AF23CF10F400156DE0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		A0F7A83523D09CAB00FF3428 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		A0F7A83623D09CAB00FF3428 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
+		BA24C52458231CE6B7C7876A /* Pods-Corny.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Corny.debug.xcconfig"; path = "Target Support Files/Pods-Corny/Pods-Corny.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,17 +47,39 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C27EC402A93C34B43F036F1A /* Pods_Corny.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5CE0CC1276584F876C5CABB9 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				864C3D4E5E5A00AE53CF1C92 /* Pods_Corny.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A03F0F6F23D08E0E00508747 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				A03F0F6923D08DCE00508747 /* SignUpViewController.swift */,
+				A03F0F6B23D08DE000508747 /* LoginViewController.swift */,
+				A03F0F6D23D08DF000508747 /* HomeViewController.swift */,
+				A045039F23CF0BFD00156DE0 /* ViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
 		A045038F23CF0BFD00156DE0 = {
 			isa = PBXGroup;
 			children = (
 				A045039A23CF0BFD00156DE0 /* Corny */,
 				A045039923CF0BFD00156DE0 /* Products */,
+				F534D3DD7D4579265C07CDF3 /* Pods */,
+				5CE0CC1276584F876C5CABB9 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -58,13 +96,33 @@
 			children = (
 				A045039B23CF0BFD00156DE0 /* AppDelegate.swift */,
 				A045039D23CF0BFD00156DE0 /* SceneDelegate.swift */,
-				A045039F23CF0BFD00156DE0 /* ViewController.swift */,
+				A0F7A83423D09CAB00FF3428 /* Helpers */,
+				A03F0F6F23D08E0E00508747 /* ViewControllers */,
 				A04503A123CF0BFD00156DE0 /* Main.storyboard */,
 				A04503A423CF0BFE00156DE0 /* Assets.xcassets */,
 				A04503A623CF0BFE00156DE0 /* LaunchScreen.storyboard */,
 				A04503A923CF0BFE00156DE0 /* Info.plist */,
+				A04503AF23CF10F400156DE0 /* GoogleService-Info.plist */,
 			);
 			path = Corny;
+			sourceTree = "<group>";
+		};
+		A0F7A83423D09CAB00FF3428 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				A0F7A83523D09CAB00FF3428 /* Constants.swift */,
+				A0F7A83623D09CAB00FF3428 /* Utilities.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		F534D3DD7D4579265C07CDF3 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				BA24C52458231CE6B7C7876A /* Pods-Corny.debug.xcconfig */,
+				06F577A5EC83D867FCF8C254 /* Pods-Corny.release.xcconfig */,
+			);
+			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -74,9 +132,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A04503AC23CF0BFE00156DE0 /* Build configuration list for PBXNativeTarget "Corny" */;
 			buildPhases = (
+				F9371A0DDC54AF599F1CCB80 /* [CP] Check Pods Manifest.lock */,
 				A045039423CF0BFD00156DE0 /* Sources */,
 				A045039523CF0BFD00156DE0 /* Frameworks */,
 				A045039623CF0BFD00156DE0 /* Resources */,
+				402B7D6B1D0CB81D334DA72D /* [CP] Embed Pods Frameworks */,
+				4A8C67FE95E9771E9A7219B6 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -126,12 +187,72 @@
 			buildActionMask = 2147483647;
 			files = (
 				A04503A823CF0BFE00156DE0 /* LaunchScreen.storyboard in Resources */,
+				A04503B023CF10F400156DE0 /* GoogleService-Info.plist in Resources */,
 				A04503A523CF0BFE00156DE0 /* Assets.xcassets in Resources */,
 				A04503A323CF0BFD00156DE0 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		402B7D6B1D0CB81D334DA72D /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Corny/Pods-Corny-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Corny/Pods-Corny-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Corny/Pods-Corny-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		4A8C67FE95E9771E9A7219B6 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Corny/Pods-Corny-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Corny/Pods-Corny-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Corny/Pods-Corny-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F9371A0DDC54AF599F1CCB80 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Corny-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		A045039423CF0BFD00156DE0 /* Sources */ = {
@@ -140,7 +261,12 @@
 			files = (
 				A04503A023CF0BFD00156DE0 /* ViewController.swift in Sources */,
 				A045039C23CF0BFD00156DE0 /* AppDelegate.swift in Sources */,
+				A03F0F6A23D08DCE00508747 /* SignUpViewController.swift in Sources */,
+				A03F0F6C23D08DE000508747 /* LoginViewController.swift in Sources */,
+				A0F7A83723D09CAB00FF3428 /* Constants.swift in Sources */,
 				A045039E23CF0BFD00156DE0 /* SceneDelegate.swift in Sources */,
+				A0F7A83823D09CAB00FF3428 /* Utilities.swift in Sources */,
+				A03F0F6E23D08DF000508747 /* HomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -282,6 +408,7 @@
 		};
 		A04503AD23CF0BFE00156DE0 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BA24C52458231CE6B7C7876A /* Pods-Corny.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -299,6 +426,7 @@
 		};
 		A04503AE23CF0BFE00156DE0 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 06F577A5EC83D867FCF8C254 /* Pods-Corny.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
