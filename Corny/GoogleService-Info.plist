@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>484897529305-gjhj3b777btc8vn8n74eqfdphe57un8o.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.484897529305-gjhj3b777btc8vn8n74eqfdphe57un8o</string>
+	<key>API_KEY</key>
+	<string>AIzaSyA_U40Q88y_NDe7YlBr3CU5HgmM_s1Pwe4</string>
+	<key>GCM_SENDER_ID</key>
+	<string>484897529305</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.OfekAziel.Corny</string>
+	<key>PROJECT_ID</key>
+	<string>corny-bbc7b</string>
+	<key>STORAGE_BUCKET</key>
+	<string>corny-bbc7b.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:484897529305:ios:2551735a0b97d5fb020dc8</string>
+	<key>DATABASE_URL</key>
+	<string>https://corny-bbc7b.firebaseio.com</string>
+</dict>
+</plist>
