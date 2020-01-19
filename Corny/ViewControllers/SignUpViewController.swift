@@ -44,30 +44,32 @@ class SignUpViewController: UIViewController {
         
         if error != nil {
             showError(error!)
-        }
-        else {
-            let firstName = firstNameTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+        } else {
+            let firstName = firstNameTextField.text!.trimmingCharacters(in:.whitespacesAndNewlines)
             let lastName = lastNameTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
             let email = emailTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
             let password = passwordTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
             
-            Auth.auth().createUser(withEmail: email, password: password) { (result, err) in
-                if err != nil {
-                    self.showError("Error creating user.")
-                }
-                else {
-                    let db = Firestore.firestore()
-                    db.collection("users").addDocument(data: ["first_name":firstName, "last_name":lastName, "uid":result!.user.uid]) { (error) in
-
-                        if error != nil {
-                            self.showError("Error saving user data.")
-                        }
-                    }
-                }
-            }
-            
+            createUser(firstName: firstName, lastName: lastName, email: email, password: password)
             self.transitionToHome()
         }
+    }
+    
+    func createUser(firstName: String, lastName: String, email: String, password: String) {
+        Auth.auth().createUser(withEmail: email, password: password) { (result, err) in
+              if err != nil {
+                  self.showError("Error creating user.")
+              } else {
+                  let db = Firestore.firestore()
+                
+                db.collection("users").addDocument(data: ["uid": result!.user.uid, "first_name": firstName, "last_name": lastName, "is_admin": false]) { (error) in
+
+                      if error != nil {
+                          self.showError("Error saving user data.")
+                      }
+                  }
+              }
+          }
     }
     
     func transitionToHome() {
