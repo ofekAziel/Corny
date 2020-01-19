@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class LoginViewController: UIViewController {
     
@@ -43,5 +44,46 @@ class LoginViewController: UIViewController {
     */
     
     @IBAction func loginTapped(_ sender: Any) {
+        let error = validateFields()
+          
+          if error != nil {
+              showError(error!)
+          } else {
+            let email = emailTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+            let password = passwordTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+            Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
+                if error != nil {
+                    self.showError(error!.localizedDescription)
+                } else {
+                    self.transitionToHome()
+                }
+            }
+        }
+    }
+    
+    func transitionToHome() {
+        let homeViewController = storyboard?.instantiateViewController(identifier: Constants.Storyboard.homeViewController) as? HomeViewController
+        
+        view.window?.rootViewController = homeViewController
+        view.window?.makeKeyAndVisible()
+    }
+    
+    func validateFields() -> String? {
+        if isTextFieldsEmpty() {
+            
+            return "Please fill in all fields."
+        }
+        
+        return nil
+    }
+    
+    func isTextFieldsEmpty() -> Bool {
+        return emailTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" ||
+            passwordTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == ""
+    }
+    
+    func showError(_ message:String) {
+        errorLabel.text = message
+        errorLabel.alpha = 1
     }
 }
