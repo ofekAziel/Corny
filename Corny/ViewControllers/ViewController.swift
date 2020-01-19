@@ -21,7 +21,6 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
         setUpElements()
     }
     
@@ -43,6 +42,7 @@ class ViewController: UIViewController {
         
         let url = URL(fileURLWithPath: bundlePath!)
         let item = AVPlayerItem(url: url)
+        
         videoPlayer = AVPlayer(playerItem: item)
         videoPlayerLayer = AVPlayerLayer(player: videoPlayer!)
         

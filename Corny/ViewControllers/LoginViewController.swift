@@ -33,16 +33,6 @@ class LoginViewController: UIViewController {
            Utilities.styleFilledButton(loginButton)
        }
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-    
     @IBAction func loginTapped(_ sender: Any) {
         let error = validateFields()
           
@@ -51,14 +41,18 @@ class LoginViewController: UIViewController {
           } else {
             let email = emailTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
             let password = passwordTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
-            Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
-                if error != nil {
-                    self.showError(error!.localizedDescription)
-                } else {
-                    self.transitionToHome()
-                }
-            }
+            signIn(email: email, password: password)
         }
+    }
+    
+    func signIn(email: String, password: String) {
+        Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
+              if error != nil {
+                  self.showError(error!.localizedDescription)
+              } else {
+                  self.transitionToHome()
+              }
+          }
     }
     
     func transitionToHome() {
@@ -70,7 +64,6 @@ class LoginViewController: UIViewController {
     
     func validateFields() -> String? {
         if isTextFieldsEmpty() {
-            
             return "Please fill in all fields."
         }
         
