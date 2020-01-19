@@ -11,9 +11,11 @@ import AVKit
 
 class ViewController: UIViewController {
 
-    var videoPlayer: AVPlayer?
+    var playerLooper: NSObject?
     
-    var videoPlayerLayer: AVPlayerLayer?
+    var playerLayer:AVPlayerLayer!
+    
+    var queuePlayer: AVQueuePlayer?
     
     @IBOutlet weak var signUpButton: UIButton!
     
@@ -25,8 +27,8 @@ class ViewController: UIViewController {
     }
     
     func setUpElements() {
-        Utilities.styleFilledButton(signUpButton)
-        Utilities.styleHollowButton(loginButton)
+        Utilities.styleHollowButton(signUpButton)
+        Utilities.styleFilledButton(loginButton)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -34,25 +36,27 @@ class ViewController: UIViewController {
     }
     
     func setUpVideo() {
-        let bundlePath = Bundle.main.path(forResource: "loginbg", ofType: "mp4")
+        let bundlePath = Bundle.main.path(forResource: "intro", ofType: "mp4")
         
         guard bundlePath != nil else {
             return
         }
         
         let url = URL(fileURLWithPath: bundlePath!)
-        let item = AVPlayerItem(url: url)
-        
-        videoPlayer = AVPlayer(playerItem: item)
-        videoPlayerLayer = AVPlayerLayer(player: videoPlayer!)
-        
-        videoPlayerLayer?.frame = CGRect(x:
+        let playerItem = AVPlayerItem(url: url as URL)
+        self.queuePlayer = AVQueuePlayer(items: [playerItem])
+        self.playerLooper = AVPlayerLooper(player: self.queuePlayer!, templateItem: playerItem)
+        self.playerLayer = AVPlayerLayer(player: self.queuePlayer)
+        ajustVideoSize()
+        view.layer.insertSublayer(playerLayer!, at: 0)
+        self.queuePlayer?.play()
+    }
+    
+    func ajustVideoSize() {
+        playerLayer?.frame = CGRect(x:
             -self.view.frame.size.width * 1.5, y: 0, width:
             self.view.frame.size.width * 4, height:
             self.view.frame.size.height)
-          
-          view.layer.insertSublayer(videoPlayerLayer!, at: 0)
-          videoPlayer?.playImmediately(atRate: 0.3)
     }
 }
 
