@@ -1,9 +1,9 @@
 //
-//  Constants.swift
-//  CustomLoginDemo
+//  SignUpViewController.swift
+//  Corny
 //
-//  Created by Christopher Ching on 2019-07-23.
-//  Copyright © 2019 Christopher Ching. All rights reserved.
+//  Created by ofek aziel on 16/01/2020.
+//  Copyright © 2020 ofek aziel. All rights reserved.
 //
 
 import Foundation
@@ -11,10 +11,6 @@ import Foundation
 struct Constants {
     
     struct Storyboard {
-        
         static let homeViewController = "HomeVC"
-        
     }
-    
-    
 }
