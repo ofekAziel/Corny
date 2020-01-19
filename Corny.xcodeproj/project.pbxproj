@@ -17,7 +17,7 @@
 		A04503A523CF0BFE00156DE0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A04503A423CF0BFE00156DE0 /* Assets.xcassets */; };
 		A04503A823CF0BFE00156DE0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A04503A623CF0BFE00156DE0 /* LaunchScreen.storyboard */; };
 		A04503B023CF10F400156DE0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A04503AF23CF10F400156DE0 /* GoogleService-Info.plist */; };
-		A0F324F323D45A2100CC26B2 /* loginbg.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = A0F324F223D45A2100CC26B2 /* loginbg.mp4 */; };
+		A06DECAD23D4994200BE3C5E /* intro.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = A06DECAC23D4994200BE3C5E /* intro.mp4 */; };
 		A0F7A83723D09CAB00FF3428 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F7A83523D09CAB00FF3428 /* Constants.swift */; };
 		A0F7A83823D09CAB00FF3428 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F7A83623D09CAB00FF3428 /* Utilities.swift */; };
 		C27EC402A93C34B43F036F1A /* Pods_Corny.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 864C3D4E5E5A00AE53CF1C92 /* Pods_Corny.framework */; };
@@ -38,7 +38,7 @@
 		A04503A723CF0BFE00156DE0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A04503A923CF0BFE00156DE0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A04503AF23CF10F400156DE0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		A0F324F223D45A2100CC26B2 /* loginbg.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = loginbg.mp4; sourceTree = "<group>"; };
+		A06DECAC23D4994200BE3C5E /* intro.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = intro.mp4; sourceTree = "<group>"; };
 		A0F7A83523D09CAB00FF3428 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		A0F7A83623D09CAB00FF3428 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		BA24C52458231CE6B7C7876A /* Pods-Corny.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Corny.debug.xcconfig"; path = "Target Support Files/Pods-Corny/Pods-Corny.debug.xcconfig"; sourceTree = "<group>"; };
@@ -113,7 +113,7 @@
 		A0F324F123D459F100CC26B2 /* Media */ = {
 			isa = PBXGroup;
 			children = (
-				A0F324F223D45A2100CC26B2 /* loginbg.mp4 */,
+				A06DECAC23D4994200BE3C5E /* intro.mp4 */,
 			);
 			path = Media;
 			sourceTree = "<group>";
@@ -196,8 +196,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A06DECAD23D4994200BE3C5E /* intro.mp4 in Resources */,
 				A04503A823CF0BFE00156DE0 /* LaunchScreen.storyboard in Resources */,
-				A0F324F323D45A2100CC26B2 /* loginbg.mp4 in Resources */,
 				A04503B023CF10F400156DE0 /* GoogleService-Info.plist in Resources */,
 				A04503A523CF0BFE00156DE0 /* Assets.xcassets in Resources */,
 				A04503A323CF0BFD00156DE0 /* Main.storyboard in Resources */,
