@@ -86,7 +86,7 @@
             </objects>
             <point key="canvasLocation" x="2465" y="100"/>
         </scene>
-        <!--Login View Controller-->
+        <!--Login-->
         <scene sceneID="eIz-hT-QAL">
             <objects>
                 <viewController id="PyC-Ig-hL9" customClass="LoginViewController" customModule="Corny" customModuleProvider="target" sceneMemberID="viewController">
@@ -138,7 +138,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="hR3-0e-HsC"/>
                     </view>
-                    <navigationItem key="navigationItem" id="6k1-nO-rry"/>
+                    <navigationItem key="navigationItem" title="Login" id="6k1-nO-rry"/>
                     <connections>
                         <outlet property="emailTextField" destination="acd-ic-u38" id="B9J-DJ-8hr"/>
                         <outlet property="errorLabel" destination="OON-99-nRJ" id="JwI-81-LcQ"/>
@@ -150,7 +150,7 @@
             </objects>
             <point key="canvasLocation" x="1683" y="425"/>
         </scene>
-        <!--Sign Up View Controller-->
+        <!--Sign Up-->
         <scene sceneID="2JD-6Z-cdx">
             <objects>
                 <viewController id="pif-e3-aSX" customClass="SignUpViewController" customModule="Corny" customModuleProvider="target" sceneMemberID="viewController">
@@ -214,7 +214,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Trr-A3-AyS"/>
                     </view>
-                    <navigationItem key="navigationItem" id="lgj-Li-CDF"/>
+                    <navigationItem key="navigationItem" title="Sign Up" id="lgj-Li-CDF"/>
                     <connections>
                         <outlet property="emailTextField" destination="srb-9Q-ZDk" id="5Xi-vo-Nxe"/>
                         <outlet property="errorLabel" destination="5fw-zy-9LM" id="GM9-Rq-J7z"/>
@@ -236,6 +236,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="E20-jj-hsC">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="h1v-IC-Htp">
