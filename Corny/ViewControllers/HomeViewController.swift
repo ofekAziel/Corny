@@ -12,5 +12,15 @@ class HomeViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        createAddButtonOnNavigationBar()
+    }
+    
+    func createAddButtonOnNavigationBar() {
+        let addMoviewButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addMovie))
+        self.navigationItem.rightBarButtonItem = addMoviewButton
+    }
+    
+    @objc func addMovie() {
+        
     }
 }
