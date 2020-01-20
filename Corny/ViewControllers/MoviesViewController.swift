@@ -30,7 +30,5 @@ class MoviesViewController: UIViewController {
         let cornyEditMovieViewController = cornyStoryboard.instantiateViewController(identifier: Constants.Storyboard.cornyEditMovieViewController)
         
         self.present(cornyEditMovieViewController, animated: true, completion: nil)
-//        view.window?.rootViewController = cornyNavigationController
-//        view.window?.makeKeyAndVisible()
     }
 }
