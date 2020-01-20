@@ -130,7 +130,7 @@
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iZl-Km-kjh">
                                 <rect key="frame" x="40" y="812.5" width="334" height="30"/>
-                                <state key="normal" title="Button"/>
+                                <state key="normal" title="Delete"/>
                             </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
