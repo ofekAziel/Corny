@@ -51,7 +51,7 @@ class SignUpViewController: UIViewController {
             let password = passwordTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
             
             createUser(firstName: firstName, lastName: lastName, email: email, password: password)
-            self.transitionToHome()
+            self.transitionToMovieScreen()
         }
     }
     
@@ -72,12 +72,14 @@ class SignUpViewController: UIViewController {
           }
     }
     
-    func transitionToHome() {
+    func transitionToMovieScreen() {
         var cornyStoryboard: UIStoryboard!
-        cornyStoryboard = UIStoryboard(name: Constants.Storyboard.name, bundle: nil)
-        let homeViewController = cornyStoryboard.instantiateViewController(identifier: Constants.Storyboard.homeViewController) as? HomeViewController
+        cornyStoryboard = UIStoryboard(name: Constants.Storyboard.cornyStroyBoard, bundle: nil)
+        guard let cornyNavigationController = cornyStoryboard.instantiateViewController(identifier: Constants.Storyboard.cornyNavigationController) as? UINavigationController else {
+            return
+        }
         
-        view.window?.rootViewController = homeViewController
+        view.window?.rootViewController = cornyNavigationController
         view.window?.makeKeyAndVisible()
     }
     
