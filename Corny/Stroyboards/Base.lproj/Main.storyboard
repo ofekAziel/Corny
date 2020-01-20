@@ -59,33 +59,6 @@
             </objects>
             <point key="canvasLocation" x="934.78260869565224" y="99.776785714285708"/>
         </scene>
-        <!--Home View Controller-->
-        <scene sceneID="0dk-gm-3ua">
-            <objects>
-                <viewController storyboardIdentifier="HomeVC" id="Ie8-qC-c6H" customClass="HomeViewController" customModule="Corny" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Red-a6-sDW">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hda-Ah-6Gc">
-                                <rect key="frame" x="169" y="437.5" width="76" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <constraints>
-                            <constraint firstItem="hda-Ah-6Gc" firstAttribute="centerX" secondItem="Red-a6-sDW" secondAttribute="centerX" id="c9Z-pe-oOU"/>
-                            <constraint firstItem="hda-Ah-6Gc" firstAttribute="centerY" secondItem="Red-a6-sDW" secondAttribute="centerY" id="vXj-N9-v40"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="gH6-NR-EMc"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="qq4-9S-qmo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2465" y="100"/>
-        </scene>
         <!--Login-->
         <scene sceneID="eIz-hT-QAL">
             <objects>
