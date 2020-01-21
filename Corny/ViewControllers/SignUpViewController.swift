@@ -12,7 +12,7 @@ import FirebaseFirestore
 import FirebaseAuth
 
 class SignUpViewController: UIViewController {
-
+    
     @IBOutlet weak var firstNameTextField: UITextField!
     
     @IBOutlet weak var lastNameTextField: UITextField!
@@ -57,24 +57,25 @@ class SignUpViewController: UIViewController {
     
     func createUser(firstName: String, lastName: String, email: String, password: String) {
         Auth.auth().createUser(withEmail: email, password: password) { (result, err) in
-              if err != nil {
-                  self.showError("Error creating user.")
-              } else {
-                  let db = Firestore.firestore()
+            if err != nil {
+                self.showError("Error creating user.")
+            } else {
+                let db = Firestore.firestore()
                 
                 db.collection("users").addDocument(data: ["uid": result!.user.uid, "first_name": firstName, "last_name": lastName, "is_admin": false]) { (error) in
-
-                      if error != nil {
-                          self.showError("Error saving user data.")
-                      }
-                  }
-              }
-          }
+                    
+                    if error != nil {
+                        self.showError("Error saving user data.")
+                    }
+                }
+            }
+        }
     }
     
     func transitionToMovieScreen() {
         var cornyStoryboard: UIStoryboard!
         cornyStoryboard = UIStoryboard(name: Constants.Storyboard.cornyStroyBoard, bundle: nil)
+        
         guard let cornyNavigationController = cornyStoryboard.instantiateViewController(identifier: Constants.Storyboard.cornyNavigationController) as? UINavigationController else {
             return
         }
