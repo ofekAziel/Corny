@@ -55,7 +55,7 @@
             </objects>
             <point key="canvasLocation" x="2201" y="100"/>
         </scene>
-        <!--Edit Movie View Controller-->
+        <!--Add Movie-->
         <scene sceneID="qpu-eO-NkJ">
             <objects>
                 <viewController storyboardIdentifier="EditMovieVC" id="Yve-Az-xwz" customClass="EditMovieViewController" customModule="Corny" customModuleProvider="target" sceneMemberID="viewController">
@@ -69,6 +69,12 @@
                                     <constraint firstAttribute="height" constant="250" id="Khw-LP-kr1"/>
                                 </constraints>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vIN-uK-ixw" userLabel="image picker">
+                                <rect key="frame" x="10" y="98" width="394" height="250"/>
+                                <connections>
+                                    <action selector="imagePickerTapped:" destination="Yve-Az-xwz" eventType="touchUpInside" id="cfG-yf-v38"/>
+                                </connections>
+                            </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="YQS-lQ-Rag">
                                 <rect key="frame" x="40" y="368" width="334" height="437.5"/>
                                 <subviews>
@@ -153,18 +159,22 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="yrL-uO-rk5" firstAttribute="trailing" secondItem="iZl-Km-kjh" secondAttribute="trailing" constant="40" id="1cN-VP-fgX"/>
+                            <constraint firstItem="yrL-uO-rk5" firstAttribute="trailing" secondItem="vIN-uK-ixw" secondAttribute="trailing" constant="10" id="4Eb-gN-wY7"/>
                             <constraint firstItem="yrL-uO-rk5" firstAttribute="trailing" secondItem="5Vh-Ik-rui" secondAttribute="trailing" constant="10" id="89M-Bs-MrT"/>
                             <constraint firstItem="yrL-uO-rk5" firstAttribute="trailing" secondItem="YQS-lQ-Rag" secondAttribute="trailing" constant="40" id="DMb-mx-6PS"/>
                             <constraint firstItem="5Vh-Ik-rui" firstAttribute="top" secondItem="yrL-uO-rk5" secondAttribute="top" constant="10" id="G53-jz-fuZ"/>
                             <constraint firstItem="YQS-lQ-Rag" firstAttribute="leading" secondItem="yrL-uO-rk5" secondAttribute="leading" constant="40" id="SwB-nc-YT3"/>
+                            <constraint firstItem="vIN-uK-ixw" firstAttribute="top" secondItem="yrL-uO-rk5" secondAttribute="top" constant="10" id="Vir-d2-ECw"/>
                             <constraint firstItem="5Vh-Ik-rui" firstAttribute="leading" secondItem="yrL-uO-rk5" secondAttribute="leading" constant="10" id="abE-JP-apn"/>
                             <constraint firstItem="iZl-Km-kjh" firstAttribute="leading" secondItem="yrL-uO-rk5" secondAttribute="leading" constant="40" id="ceJ-eT-dOK"/>
+                            <constraint firstItem="vIN-uK-ixw" firstAttribute="leading" secondItem="yrL-uO-rk5" secondAttribute="leading" constant="10" id="hVy-8y-zKV"/>
                             <constraint firstItem="iZl-Km-kjh" firstAttribute="top" secondItem="YQS-lQ-Rag" secondAttribute="bottom" constant="13" id="jeM-Z3-JJx"/>
+                            <constraint firstItem="vIN-uK-ixw" firstAttribute="height" secondItem="5Vh-Ik-rui" secondAttribute="height" id="ubm-QN-KfC"/>
                             <constraint firstItem="YQS-lQ-Rag" firstAttribute="top" secondItem="5Vh-Ik-rui" secondAttribute="bottom" constant="20" id="uc8-EF-EqN"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="yrL-uO-rk5"/>
                     </view>
-                    <navigationItem key="navigationItem" id="oVn-OK-zRr"/>
+                    <navigationItem key="navigationItem" title="Add Movie" id="oVn-OK-zRr"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="actorsTextField" destination="lKI-fu-W3M" id="9BF-fl-BBz"/>
@@ -172,6 +182,8 @@
                         <outlet property="descriptionTextView" destination="Q8W-YH-fSJ" id="jTn-we-Gb3"/>
                         <outlet property="directorTextField" destination="AiR-UP-JLx" id="JWn-QP-JNW"/>
                         <outlet property="genreTextField" destination="qVe-N9-RHO" id="VhS-wJ-8tP"/>
+                        <outlet property="imagePickerButton" destination="vIN-uK-ixw" id="M9B-Ms-Xm4"/>
+                        <outlet property="movieImageView" destination="5Vh-Ik-rui" id="Cy7-kf-TUt"/>
                         <outlet property="movieNameTextField" destination="Fv3-vT-6pL" id="N6q-hh-kXp"/>
                     </connections>
                 </viewController>
