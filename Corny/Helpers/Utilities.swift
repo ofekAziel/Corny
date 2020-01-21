@@ -28,6 +28,11 @@ class Utilities {
         
     }
     
+    static func styleTextView(_ textView:UITextView) {
+        textView.layer.borderWidth = 2
+        textView.layer.borderColor = UIColor.black.cgColor
+    }
+    
     static func styleFilledButton(_ button:UIButton) {
         
         // Filled rounded corner style
