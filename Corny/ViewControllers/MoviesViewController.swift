@@ -25,10 +25,11 @@ class MoviesViewController: UIViewController {
     }
     
     func transitionToEditMovieScreen() {
-        var cornyStoryboard: UIStoryboard!
-        cornyStoryboard = UIStoryboard(name: Constants.Storyboard.cornyStroyBoard, bundle: nil)
-        let cornyEditMovieViewController = cornyStoryboard.instantiateViewController(identifier: Constants.Storyboard.cornyEditMovieViewController)
-        
-        self.present(cornyEditMovieViewController, animated: true, completion: nil)
+        performSegue(withIdentifier: "addMovie", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let destinationVC = segue.destination as! EditMovieViewController
+        destinationVC.isAddMovie = true
     }
 }
