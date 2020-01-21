@@ -13,6 +13,5 @@ struct Constants {
     struct Storyboard {
         static let cornyStroyBoard = "Corny"
         static let cornyNavigationController = "CornyNavigationVC"
-        static let cornyEditMovieViewController = "EditMovieVC"
     }
 }
