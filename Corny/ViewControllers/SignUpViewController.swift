@@ -63,7 +63,7 @@ class SignUpViewController: UIViewController {
                 
                 let usersRef = Firestore.firestore().collection(Constants.Firestore.usersCollection).document()
                 
-                let userData = ["uid":result!.user.uid, "first_name":firstName, "last_name":lastName, "is_admin":false] as [String : Any]
+                let userData = ["user_uid":result!.user.uid, "first_name":firstName, "last_name":lastName, "is_admin":false] as [String : Any]
                 
                 usersRef.setData(userData) { (err) in
                     if err != nil {
