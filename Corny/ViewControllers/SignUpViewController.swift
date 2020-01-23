@@ -50,22 +50,24 @@ class SignUpViewController: UIViewController {
             let email = emailTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
             let password = passwordTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
             
-            createUser(userDetails: User(firstName: firstName, lastName: lastName, email: email, password: password))
+            createUser(firstName: firstName, lastName: lastName, email: email, password: password)
             self.transitionToMovieScreen()
         }
     }
     
-    func createUser(userDetails:User) {
-        Auth.auth().createUser(withEmail: userDetails.email, password: userDetails.password) { (result, err) in
+    func createUser(firstName:String, lastName:String, email:String, password:String) {
+        Auth.auth().createUser(withEmail: email, password: password) { (result, err) in
             if err != nil {
                 self.showError("Error creating user.")
             } else {
-                let db = Firestore.firestore()
                 
-                db.collection("users").addDocument(data: ["uid": result!.user.uid, "first_name": userDetails.firstName, "last_name": userDetails.lastName, "is_admin": userDetails.isAdmin]) { (error) in
-                    
-                    if error != nil {
-                        self.showError("Error saving user data.")
+                let usersRef = Firestore.firestore().collection(Constants.Firestore.usersCollection).document()
+                
+                let userData = ["uid":result!.user.uid, "first_name":firstName, "last_name":lastName, "is_admin":false] as [String : Any]
+                
+                usersRef.setData(userData) { (err) in
+                    if err != nil {
+                        self.showError("Can't save this movie.")
                     }
                 }
             }
