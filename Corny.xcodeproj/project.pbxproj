@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A0029D5F23D9BF3F00CF6983 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0029D5E23D9BF3F00CF6983 /* User.swift */; };
 		A03F0F6A23D08DCE00508747 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A03F0F6923D08DCE00508747 /* SignUpViewController.swift */; };
 		A03F0F6C23D08DE000508747 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A03F0F6B23D08DE000508747 /* LoginViewController.swift */; };
 		A03F0F6E23D08DF000508747 /* MoviesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A03F0F6D23D08DF000508747 /* MoviesViewController.swift */; };
@@ -30,6 +31,7 @@
 /* Begin PBXFileReference section */
 		06F577A5EC83D867FCF8C254 /* Pods-Corny.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Corny.release.xcconfig"; path = "Target Support Files/Pods-Corny/Pods-Corny.release.xcconfig"; sourceTree = "<group>"; };
 		864C3D4E5E5A00AE53CF1C92 /* Pods_Corny.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Corny.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A0029D5E23D9BF3F00CF6983 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		A03F0F6923D08DCE00508747 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		A03F0F6B23D08DE000508747 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		A03F0F6D23D08DF000508747 /* MoviesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesViewController.swift; sourceTree = "<group>"; };
@@ -105,9 +107,9 @@
 		A045039A23CF0BFD00156DE0 /* Corny */ = {
 			isa = PBXGroup;
 			children = (
-				A09C4C0423D71DB400BFFB45 /* Structures */,
 				A045039B23CF0BFD00156DE0 /* AppDelegate.swift */,
 				A045039D23CF0BFD00156DE0 /* SceneDelegate.swift */,
+				A09C4C0423D71DB400BFFB45 /* Structures */,
 				A0F7A83423D09CAB00FF3428 /* Helpers */,
 				A03F0F6F23D08E0E00508747 /* ViewControllers */,
 				A098F31E23D5B1730075E6F4 /* Stroyboards */,
@@ -133,6 +135,7 @@
 			isa = PBXGroup;
 			children = (
 				A09C4C0523D71DFB00BFFB45 /* Movie.swift */,
+				A0029D5E23D9BF3F00CF6983 /* User.swift */,
 			);
 			path = Structures;
 			sourceTree = "<group>";
@@ -293,6 +296,7 @@
 				A09C4C0123D5E4BA00BFFB45 /* EditMovieViewController.swift in Sources */,
 				A0F7A83823D09CAB00FF3428 /* Utilities.swift in Sources */,
 				A03F0F6E23D08DF000508747 /* MoviesViewController.swift in Sources */,
+				A0029D5F23D9BF3F00CF6983 /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
