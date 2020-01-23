@@ -14,4 +14,14 @@ struct Constants {
         static let cornyStroyBoard = "Corny"
         static let cornyNavigationController = "CornyNavigationVC"
     }
+    
+    struct Storgae {
+        static let imagesFolder = "images/"
+    }
+    
+    struct Firestore {
+        static let usersCollection = "users"
+        static let moviesCollection = "movies"
+        static let imagesCollection = "images"
+    }
 }
