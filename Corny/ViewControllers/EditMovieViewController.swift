@@ -84,98 +84,57 @@ class EditMovieViewController: UIViewController, UIImagePickerControllerDelegate
     
     func saveMovieToDatabase() {
         
-//        guard let imageUid = UserDefaults.standard.value(forKey: "imageUid") else {
-//            self.showAlert(alertText: "Something went wrong...")
-//            return
-//        }
+        self.uploadPhotoToStorage()
+        guard let imageUid = UserDefaults.standard.value(forKey: "imageUid") else {
+            self.showAlert(alertText: "Something went wrong...")
+            return
+        }
         
         let moviesRef = Firestore.firestore().collection(Constants.Firestore.moviesCollection).document()
         
-        let movieData = ["name":movieNameTextField.text!, "genre":genreTextField.text!, "actors":actorsTextField.text!, "director":directorTextField.text!, "description":descriptionTextView.text!]
+        let movieData = ["name":movieNameTextField.text!, "genre":genreTextField.text!, "actors":actorsTextField.text!, "director":directorTextField.text!, "description":descriptionTextView.text!, "image_uid":imageUid]
         
         moviesRef.setData(movieData) { (err) in
             if err != nil {
                 self.showAlert(alertText: "Can't save movie data.")
             } else {
-                self.uploadPhotoToStorage()
                 self.navigationController?.popViewController(animated: true)
             }
         }
     }
-    
-//    func uploadPhotoToStorage() -> String {
-//        guard let image = movieImageView.image, let data = image.jpegData(compressionQuality: 1.0) else {
-//            return ""
-//        }
-//
-//        var documentUid = ""
-//        let imageName = UUID().uuidString
-//        let imageRef = Storage.storage().reference().child(Constants.Storgae.imagesFolder).child(imageName)
-//
-//        imageRef.putData(data, metadata: nil) { (metadata, err) in
-//            if err != nil {
-//                return
-//            }
-//
-//            imageRef.downloadURL { (url, err) in
-//                if err != nil {
-//                    return
-//                }
-//
-//                guard let url = url else {
-//                    return
-//                }
-//
-//                let dataRef = Firestore.firestore().collection(Constants.Firestore.imagesCollection).document()
-//
-//                let urlString = url.absoluteString
-//                let imageData = ["url": urlString]
-//
-//                dataRef.setData(imageData) { (err) in
-//                    if err != nil {
-//                        return
-//                    }
-//                }
-//
-//                documentUid = dataRef.documentID
-//            }
-//        }
-//
-//        return documentUid
-//    }
     
     func uploadPhotoToStorage() {
         guard let image = movieImageView.image, let data = image.jpegData(compressionQuality: 1.0) else {
             showAlert(alertText: "Something went wrong...")
             return
         }
-
+        
         let imageName = UUID().uuidString
         let imageRef = Storage.storage().reference().child(Constants.Storgae.imagesFolder).child(imageName)
-
+        
         imageRef.putData(data, metadata: nil) { (metadata, err) in
             if err != nil {
                 self.showAlert(alertText: "Can't upload photo to storage.")
                 return
             }
-
+            
             imageRef.downloadURL { (url, err) in
                 if err != nil {
                     self.showAlert(alertText: "Something went wrong...")
                     return
                 }
-
+                
                 guard let url = url else {
                     self.showAlert(alertText: "Something went wrong...")
                     return
                 }
-
+                
                 let dataRef = Firestore.firestore().collection(Constants.Firestore.imagesCollection).document()
                 
                 let documentUid = dataRef.documentID
                 let urlString = url.absoluteString
                 let imageData = ["url": urlString]
-
+                
                 dataRef.setData(imageData) { (err) in
                     if err != nil {
                         self.showAlert(alertText: "Can't save image data.")
