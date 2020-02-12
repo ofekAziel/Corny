@@ -1,5 +1,5 @@
 //
-//  HomeViewController.swift
+//  MoviesViewController.swift
 //  Corny
 //
 //  Created by ofek aziel on 16/01/2020.
@@ -8,10 +8,18 @@
 
 import UIKit
 
-class MoviesViewController: UIViewController {
-
+class MoviesViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    @IBOutlet weak var collectionView : UICollectionView!
+    
+    let movies = [("Test"),("Test2"),("Test3"),("Test4")]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        
         createAddButtonOnNavigationBar()
     }
     
@@ -31,5 +39,21 @@ class MoviesViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let destinationVC = segue.destination as! EditMovieViewController
         destinationVC.isAddMovie = true
+    }
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return movies.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MovieCell", for: indexPath) as! MovieCollectionViewCell
+        //let cellIndex = indexPath.item
+        
+        
+        return cell
     }
 }
