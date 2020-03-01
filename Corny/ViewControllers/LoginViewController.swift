@@ -32,15 +32,16 @@ class LoginViewController: UIViewController {
        }
     
     @IBAction func loginTapped(_ sender: Any) {
-        let error = validateFields()
-          
-          if error != nil {
-              showError(error!)
-          } else {
-            let email = emailTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
-            let password = passwordTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
-            signIn(email: email, password: password)
-        }
+        self.transitionToMovieScreen()
+//        let error = validateFields()
+//          
+//          if error != nil {
+//              showError(error!)
+//          } else {
+//            let email = emailTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+//            let password = passwordTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+//            signIn(email: email, password: password)
+//        }
     }
     
     func signIn(email: String, password: String) {

@@ -32,28 +32,63 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hZG-KH-hBs">
-                                <rect key="frame" x="169" y="437.5" width="76" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="HrK-V1-erp">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="b1L-Ah-Av9">
+                                    <size key="itemSize" width="152" height="213"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="MovieCell" id="8CS-xo-0sH">
+                                        <rect key="frame" x="0.0" y="0.0" width="180" height="250"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                            <rect key="frame" x="0.0" y="0.0" width="180" height="250"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </view>
+                                        <size key="customSize" width="180" height="250"/>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="hZG-KH-hBs" firstAttribute="centerX" secondItem="soW-vO-SRY" secondAttribute="centerX" id="juS-AU-T6c"/>
-                            <constraint firstItem="hZG-KH-hBs" firstAttribute="centerY" secondItem="soW-vO-SRY" secondAttribute="centerY" id="ymU-el-EDx"/>
+                            <constraint firstItem="HrK-V1-erp" firstAttribute="top" secondItem="OOs-Ok-9Ex" secondAttribute="top" id="KgA-Pv-3p2"/>
+                            <constraint firstItem="HrK-V1-erp" firstAttribute="leading" secondItem="OOs-Ok-9Ex" secondAttribute="leading" id="P3l-Y3-f4Z"/>
+                            <constraint firstItem="HrK-V1-erp" firstAttribute="trailing" secondItem="OOs-Ok-9Ex" secondAttribute="trailing" id="qIc-kb-i46"/>
+                            <constraint firstItem="HrK-V1-erp" firstAttribute="bottom" secondItem="OOs-Ok-9Ex" secondAttribute="bottom" id="yf4-w5-EbL"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="OOs-Ok-9Ex"/>
                     </view>
                     <navigationItem key="navigationItem" title="Movies" id="hRc-GG-T6A"/>
                     <connections>
+                        <outlet property="collectionView" destination="HrK-V1-erp" id="zE4-7t-Oml"/>
                         <segue destination="Yve-Az-xwz" kind="show" identifier="addMovie" id="ZLG-tA-YQs"/>
+                        <segue destination="O8s-6o-iT1" kind="show" id="eit-lW-eP3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qIO-4g-7k5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2201" y="100"/>
+            <point key="canvasLocation" x="2198.5507246376815" y="99.776785714285708"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="h1x-Ca-p8I">
+            <objects>
+                <viewController id="O8s-6o-iT1" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="zG7-ex-yKd">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="l6a-lR-uzP"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="5N2-Ad-3BO"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Q7P-Gc-H8u" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3034" y="-88"/>
         </scene>
         <!--Add Movie-->
         <scene sceneID="qpu-eO-NkJ">
@@ -189,7 +224,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="w8z-IX-YZU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3053.6231884057975" y="99.776785714285708"/>
+            <point key="canvasLocation" x="3093" y="561"/>
         </scene>
     </scenes>
     <resources>
