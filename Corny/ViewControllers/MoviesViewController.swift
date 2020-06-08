@@ -9,38 +9,31 @@
 import UIKit
 import FirebaseDatabase
 import FirebaseFirestore
+import FirebaseStorage
+
+struct movie {
+    var actors: String
+    var description: String
+    var director: String
+    var genre: String
+    var imageUID: String
+    var name: String
+}
 
 class MoviesViewController: UIViewController {
     
     @IBOutlet weak var collectionView : UICollectionView!
     
     var db: Firestore!
-//    var ref: DatabaseReference!
-
-//    var ref = Database.database().reference(withPath: "movies")
-    
-    let movies = [("Test"),("Test2"),("Test3"),("Test4"),("Test5"),("Test6"),("Test7"),("Test8")]
-//    var movies: [[String : Any]] = []
+    var storage: Storage!
+    var moviesArr: [[String : Any]] = []
     
     var collectionViewFlowLayout: UICollectionViewFlowLayout!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        db = Firestore.firestore()
-//        db.collection("movies").getDocuments() { (snapshot, err) in
-//            if err != nil {
-//                print(err)
-//            } else {
-//                for document in (snapshot?.documents)! {
-////                    self.move = document.data()["name"]
-//                    print(document.data())
-////                    self.movies.append(document.data())
-//
-//                }
-//            }
-//        }
-        
+        self.getData()
         
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -55,14 +48,35 @@ class MoviesViewController: UIViewController {
         setupCollectionViewItemSize()
     }
     
+    private func getData() {
+        db = Firestore.firestore()
+        storage = Storage.storage()
+        
+        let collectionRef = db.collection("movies")
+        
+        collectionRef.addSnapshotListener { (querySnapshot, err) in
+            if let movies = querySnapshot?.documents {
+                for movie in movies {
+                    self.moviesArr.append(movie.data())
+                }
+                
+                self.collectionView?.reloadData()
+            }
+            
+            print(self.moviesArr)
+        }
+    }
+    
     private func setupCollectionViewItemSize() {
         if (collectionViewFlowLayout == nil) {
-            let width = 180//(collectionView.frame.width - (numberOfItemPerRow - 1) * interItemSpacing) / numberOfItemPerRow
+            let screenSize: CGRect = UIScreen.main.bounds
+            let width = ( screenSize.width / 2 ) - 10
+            //let width = 190//(collectionView.frame.width - (numberOfItemPerRow - 1) * interItemSpacing) / numberOfItemPerRow
             let height = 250//width
             
             collectionViewFlowLayout = UICollectionViewFlowLayout()
             
-            collectionViewFlowLayout.itemSize = CGSize(width: width, height: height)
+            collectionViewFlowLayout.itemSize = CGSize(width: Int(width), height: height)
             collectionViewFlowLayout.sectionInset = UIEdgeInsets.zero
             collectionViewFlowLayout.scrollDirection = .vertical
             collectionViewFlowLayout.minimumLineSpacing = 10
@@ -97,13 +111,13 @@ class MoviesViewController: UIViewController {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return movies.count
+        return moviesArr.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MovieCell", for: indexPath) as! MovieCollectionViewCell
         
-        let cellIndex = indexPath.item
+        let cellIndex = indexPath.row
         
         cell.contentView.layer.masksToBounds = false
         cell.contentView.layer.backgroundColor = UIColor.white.cgColor
@@ -123,25 +137,104 @@ class MoviesViewController: UIViewController {
         let radius = cell.contentView.layer.cornerRadius
         cell.layer.shadowPath = UIBezierPath(roundedRect: cell.bounds, cornerRadius: radius).cgPath
         
-        //cell.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+        cell.movieName.text = moviesArr[cellIndex]["name"] as? String
+        cell.movieGenre.text = moviesArr[cellIndex]["genre"] as? String
         
-        cell.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tap(_:))))
+        let uid = moviesArr[cellIndex]["image_uid"] as? String
         
-        cell.movieName.text = movies[cellIndex]
-        cell.movieGenre.text = "test"
-        cell.movieImage.image = nil
+        if uid != nil {
+        let query = Firestore.firestore().collection("images").document(uid!)
+            
+        query.getDocument { (document, err) in
+           if let document = document, document.exists {
+////                if let filePath = Bundle.main.path(forResource: document.data()!["url"] as? String, ofType: "jpg"), let image = UIImage(contentsOfFile: filePath) {
+////                    cell.movieImage.contentMode = .scaleAspectFit
+////                    cell.movieImage.image = image
+////                }
+//
+            let data = document.data()
+            let test = data!["url"] as! String
+                
+//            let imageRef = self.storage.reference(forURL: test)
+//            let imageRef =
+            
+//            let img = cell.movieImage.image
+            
+            
+//            imageRef.getData(maxSize: 1 * 1024 * 1024) { (data, error) -> Void in
+//              // Create a UIImage, add it to the array
+//                let pic = UIImage(data: data!)
+//              cell.movieImage.image = pic
+//            }
+//
+//                //var customAllowedSet =  NSCharacterSet(charactersIn:"=\"#%/<>?@\\^`{|}").inverted
+//                let allowedCharacterSet = (CharacterSet(charactersIn: "^!*'();:@&=+$,/?%#[] ").inverted)
+//                var escapedString = test.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+//                //stringByAddingPercentEncodingWithAllowedCharacters(customAllowedSet)
+//
+//                let imageURL = URL(string: escapedString!)
+//
+//                DispatchQueue.global().async {
+//                    guard let imageData = try? Data(contentsOf: imageURL!) else { return }
+//
+//                       let image = UIImage(data: imageData)
+//                       DispatchQueue.main.async {
+//                           cell.movieImage.image = image
+//                       }
+//                   }
+//
+//                //cell.movieImage.load(url: url)
+//                //print(url)
+            }
+       }
+       }
+        
+        //cell.movieImage.image = nil
         
         return cell
     }
         
-        @objc func tap(_ sender: UITapGestureRecognizer) {
-
-       let location = sender.location(in: self.collectionView)
-       let indexPath = self.collectionView.indexPathForItem(at: location)
-
-       if let index = indexPath {
-          print("Got clicked on index: \(index)!")
-       }
-    }
+        func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+            let vc = storyboard?.instantiateViewController(identifier: "MovieDetailsViewController") as? MovieDetailsViewController
+            
+            //vc?.navItem.title = moviesArr[indexPath.row]["name"] as? String
+            vc?.movieName = moviesArr[indexPath.row]["name"] as! String
+            vc?.movieGenre = moviesArr[indexPath.row]["genre"] as! String
+            vc?.movieActors = moviesArr[indexPath.row]["actors"] as! String
+            vc?.movieDirector = moviesArr[indexPath.row]["director"] as! String
+            vc?.desc = moviesArr[indexPath.row]["description"] as! String
+            self.navigationController?.pushViewController(vc!, animated: true)
+        }
  }
+
+extension UIImageView {
+    func load(url: URL) {
+        DispatchQueue.global().async { [weak self] in
+            if let data = try? Data(contentsOf: url) {
+                if let image = UIImage(data: data) {
+                    DispatchQueue.main.async {
+                        self?.image = image
+                    }
+                }
+            }
+        }
+    }
+}
+
+extension String {
+    private static let slugSafeCharacters = CharacterSet(charactersIn: "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-")
+
+    public func convertedToSlug() -> String? {
+        if let latin = self.applyingTransform(StringTransform("Any-Latin; Latin-ASCII; Lower;"), reverse: false) {
+            let urlComponents = latin.components(separatedBy: String.slugSafeCharacters.inverted)
+            let result = urlComponents.filter { $0 != "" }.joined(separator: "-")
+
+            if result.count > 0 {
+                return result
+            }
+        }
+
+        return nil
+    }
+}
 
