@@ -69,7 +69,7 @@ class EditMovieViewController: UIViewController, UIImagePickerControllerDelegate
             showAlert(alertText: "Can't save movie please fill in all fields.")
         } else {
             if isAddMovie {
-                saveMovieToDatabase()
+                uploadPhotoAndMoviewToFirestore()
             }
         }
     }
@@ -82,17 +82,11 @@ class EditMovieViewController: UIViewController, UIImagePickerControllerDelegate
         self.present(alert, animated: true, completion: nil)
     }
     
-    func saveMovieToDatabase() {
-        
-        self.uploadPhotoToStorage()
-        guard let imageUid = UserDefaults.standard.value(forKey: "imageUid") else {
-            self.showAlert(alertText: "Something went wrong...")
-            return
-        }
+    func saveMovieToDatabase(imageUrl: String) {
         
         let moviesRef = Firestore.firestore().collection(Constants.Firestore.moviesCollection).document()
         
-        let movieData = ["name":movieNameTextField.text!, "genre":genreTextField.text!, "actors":actorsTextField.text!, "director":directorTextField.text!, "description":descriptionTextView.text!, "image_uid":imageUid]
+        let movieData = ["name":movieNameTextField.text!, "genre":genreTextField.text!, "actors":actorsTextField.text!, "director":directorTextField.text!, "description":descriptionTextView.text!, "image_url":imageUrl]
         
         moviesRef.setData(movieData) { (err) in
             if err != nil {
@@ -103,7 +97,7 @@ class EditMovieViewController: UIViewController, UIImagePickerControllerDelegate
         }
     }
     
-    func uploadPhotoToStorage() {
+    func uploadPhotoAndMoviewToFirestore() {
         guard let image = movieImageView.image, let data = image.jpegData(compressionQuality: 1.0) else {
             showAlert(alertText: "Something went wrong...")
             return
@@ -129,20 +123,7 @@ class EditMovieViewController: UIViewController, UIImagePickerControllerDelegate
                     return
                 }
                 
-                let dataRef = Firestore.firestore().collection(Constants.Firestore.imagesCollection).document()
-                
-                let documentUid = dataRef.documentID
-                let urlString = url.absoluteString
-                let imageData = ["url": urlString]
-                
-                dataRef.setData(imageData) { (err) in
-                    if err != nil {
-                        self.showAlert(alertText: "Can't save image data.")
-                        return
-                    }
-                    
-                    UserDefaults.standard.set(documentUid, forKey: "imageUid")
-                }
+                self.saveMovieToDatabase(imageUrl: url.absoluteString)
             }
         }
     }
