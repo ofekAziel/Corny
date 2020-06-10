@@ -32,7 +32,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="HrK-V1-erp">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="HrK-V1-erp">
                                 <rect key="frame" x="0.0" y="88" width="414" height="774"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="b1L-Ah-Av9">
@@ -57,8 +57,6 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="HrK-V1-erp" firstAttribute="top" secondItem="OOs-Ok-9Ex" secondAttribute="top" id="KgA-Pv-3p2"/>
-                            <constraint firstItem="HrK-V1-erp" firstAttribute="leading" secondItem="OOs-Ok-9Ex" secondAttribute="leading" id="P3l-Y3-f4Z"/>
-                            <constraint firstItem="HrK-V1-erp" firstAttribute="trailing" secondItem="OOs-Ok-9Ex" secondAttribute="trailing" id="qIc-kb-i46"/>
                             <constraint firstItem="HrK-V1-erp" firstAttribute="bottom" secondItem="OOs-Ok-9Ex" secondAttribute="bottom" id="yf4-w5-EbL"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="OOs-Ok-9Ex"/>

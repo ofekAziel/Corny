@@ -10,6 +10,7 @@ import UIKit
 import FirebaseDatabase
 import FirebaseFirestore
 import FirebaseStorage
+import FirebaseUI
 
 struct movie {
     var actors: String
@@ -25,6 +26,7 @@ class MoviesViewController: UIViewController {
     @IBOutlet weak var collectionView : UICollectionView!
     
     var db: Firestore!
+    var storageRef: StorageReference!
     var storage: Storage!
     var moviesArr: [[String : Any]] = []
     
@@ -51,10 +53,12 @@ class MoviesViewController: UIViewController {
     private func getData() {
         db = Firestore.firestore()
         storage = Storage.storage()
+        storageRef = storage.reference()
         
         let collectionRef = db.collection("movies")
         
         collectionRef.addSnapshotListener { (querySnapshot, err) in
+            self.moviesArr = [];
             if let movies = querySnapshot?.documents {
                 for movie in movies {
                     self.moviesArr.append(movie.data())
@@ -62,8 +66,6 @@ class MoviesViewController: UIViewController {
                 
                 self.collectionView?.reloadData()
             }
-            
-            print(self.moviesArr)
         }
     }
     
@@ -82,6 +84,7 @@ class MoviesViewController: UIViewController {
             collectionViewFlowLayout.minimumLineSpacing = 10
             collectionViewFlowLayout.minimumInteritemSpacing = 5
             
+            //collectionView.contentInset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5);
             collectionView.setCollectionViewLayout(collectionViewFlowLayout, animated: true)
         }
     }
@@ -140,56 +143,30 @@ class MoviesViewController: UIViewController {
         cell.movieName.text = moviesArr[cellIndex]["name"] as? String
         cell.movieGenre.text = moviesArr[cellIndex]["genre"] as? String
         
-        let uid = moviesArr[cellIndex]["image_uid"] as? String
+        let url = moviesArr[cellIndex]["image_uid"] as! String
+        let imageRef = self.storage.reference(forURL: url)
+        cell.movieImage.sd_setImage(with: imageRef, placeholderImage: UIImage(named: "defaultMovie.jpg"))
         
-        if uid != nil {
-        let query = Firestore.firestore().collection("images").document(uid!)
-            
-        query.getDocument { (document, err) in
-           if let document = document, document.exists {
-////                if let filePath = Bundle.main.path(forResource: document.data()!["url"] as? String, ofType: "jpg"), let image = UIImage(contentsOfFile: filePath) {
-////                    cell.movieImage.contentMode = .scaleAspectFit
-////                    cell.movieImage.image = image
-////                }
+        
+//        if uid != nil {
+//        let query = Firestore.firestore().collection("images").document(uid!)
 //
-            let data = document.data()
-            let test = data!["url"] as! String
-                
+//        query.getDocument { (document, err) in
+//           if let document = document, document.exists {
+//
+//            let data = document.data()
+//            let test = data!["url"] as! String
+//
 //            let imageRef = self.storage.reference(forURL: test)
-//            let imageRef =
-            
-//            let img = cell.movieImage.image
-            
-            
-//            imageRef.getData(maxSize: 1 * 1024 * 1024) { (data, error) -> Void in
-//              // Create a UIImage, add it to the array
-//                let pic = UIImage(data: data!)
-//              cell.movieImage.image = pic
+//
+//            print(imageRef)
+//
+//            cell.movieImage.sd_setImage(with: imageRef, placeholderImage: UIImage(named: "defaultMovie.jpg"))
+//
 //            }
-//
-//                //var customAllowedSet =  NSCharacterSet(charactersIn:"=\"#%/<>?@\\^`{|}").inverted
-//                let allowedCharacterSet = (CharacterSet(charactersIn: "^!*'();:@&=+$,/?%#[] ").inverted)
-//                var escapedString = test.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
-//                //stringByAddingPercentEncodingWithAllowedCharacters(customAllowedSet)
-//
-//                let imageURL = URL(string: escapedString!)
-//
-//                DispatchQueue.global().async {
-//                    guard let imageData = try? Data(contentsOf: imageURL!) else { return }
-//
-//                       let image = UIImage(data: imageData)
-//                       DispatchQueue.main.async {
-//                           cell.movieImage.image = image
-//                       }
-//                   }
-//
-//                //cell.movieImage.load(url: url)
-//                //print(url)
-            }
-       }
-       }
+//       }
+//       }
         
-        //cell.movieImage.image = nil
         
         return cell
     }
