@@ -32,7 +32,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="HrK-V1-erp">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="HrK-V1-erp">
                                 <rect key="frame" x="0.0" y="88" width="414" height="774"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="b1L-Ah-Av9">
@@ -56,6 +56,8 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
+                            <constraint firstItem="HrK-V1-erp" firstAttribute="leading" secondItem="OOs-Ok-9Ex" secondAttribute="leading" id="6u5-cO-pt4"/>
+                            <constraint firstItem="HrK-V1-erp" firstAttribute="trailing" secondItem="OOs-Ok-9Ex" secondAttribute="trailing" id="ByQ-Cv-GZm"/>
                             <constraint firstItem="HrK-V1-erp" firstAttribute="top" secondItem="OOs-Ok-9Ex" secondAttribute="top" id="KgA-Pv-3p2"/>
                             <constraint firstItem="HrK-V1-erp" firstAttribute="bottom" secondItem="OOs-Ok-9Ex" secondAttribute="bottom" id="yf4-w5-EbL"/>
                         </constraints>
@@ -129,13 +131,12 @@
                     </view>
                     <navigationItem key="navigationItem" id="5N2-Ad-3BO"/>
                     <connections>
-                        <outlet property="actors" destination="9TJ-Bq-wdC" id="LkU-Yf-zke"/>
-                        <outlet property="description" destination="bcU-1h-E7O" id="Il2-rm-zWx"/>
-                        <outlet property="director" destination="BJk-g9-7cL" id="cyg-GP-fBd"/>
-                        <outlet property="genre" destination="QnL-Qe-VGV" id="Mbg-wp-FbA"/>
-                        <outlet property="image" destination="160-jO-BLc" id="hzy-hz-6c5"/>
-                        <outlet property="name" destination="G2E-uh-yPf" id="10Z-Pi-gPc"/>
-                        <outlet property="navItem" destination="5N2-Ad-3BO" id="c4e-vU-GPU"/>
+                        <outlet property="actors" destination="9TJ-Bq-wdC" id="L6p-sM-8Pr"/>
+                        <outlet property="directors" destination="BJk-g9-7cL" id="UTN-cm-B7t"/>
+                        <outlet property="genre" destination="QnL-Qe-VGV" id="aUr-Hg-aJ0"/>
+                        <outlet property="image" destination="160-jO-BLc" id="ODh-6K-Yhd"/>
+                        <outlet property="movieDesc" destination="bcU-1h-E7O" id="Qa0-kU-SbU"/>
+                        <outlet property="name" destination="G2E-uh-yPf" id="ax2-f0-R3o"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Q7P-Gc-H8u" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

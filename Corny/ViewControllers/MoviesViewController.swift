@@ -41,7 +41,7 @@ class MoviesViewController: UIViewController {
         collectionView.dataSource = self
         let nib = UINib(nibName: "MovieCollectionViewCell", bundle: nil)
         collectionView.register(nib, forCellWithReuseIdentifier: "MovieCell")
-
+        
         createAddButtonOnNavigationBar()
     }
     
@@ -73,7 +73,6 @@ class MoviesViewController: UIViewController {
         if (collectionViewFlowLayout == nil) {
             let screenSize: CGRect = UIScreen.main.bounds
             let width = ( screenSize.width / 2 ) - 10
-            //let width = 190//(collectionView.frame.width - (numberOfItemPerRow - 1) * interItemSpacing) / numberOfItemPerRow
             let height = 250//width
             
             collectionViewFlowLayout = UICollectionViewFlowLayout()
@@ -107,7 +106,8 @@ class MoviesViewController: UIViewController {
         destinationVC.isAddMovie = true
     }
 }
-    extension MoviesViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+
+extension MoviesViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
@@ -143,46 +143,30 @@ class MoviesViewController: UIViewController {
         cell.movieName.text = moviesArr[cellIndex]["name"] as? String
         cell.movieGenre.text = moviesArr[cellIndex]["genre"] as? String
         
-        let url = moviesArr[cellIndex]["image_uid"] as! String
+        // Get image url and set it to imageView
+        let url = moviesArr[cellIndex]["image_url"] as! String
         let imageRef = self.storage.reference(forURL: url)
         cell.movieImage.sd_setImage(with: imageRef, placeholderImage: UIImage(named: "defaultMovie.jpg"))
         
-        
-//        if uid != nil {
-//        let query = Firestore.firestore().collection("images").document(uid!)
-//
-//        query.getDocument { (document, err) in
-//           if let document = document, document.exists {
-//
-//            let data = document.data()
-//            let test = data!["url"] as! String
-//
-//            let imageRef = self.storage.reference(forURL: test)
-//
-//            print(imageRef)
-//
-//            cell.movieImage.sd_setImage(with: imageRef, placeholderImage: UIImage(named: "defaultMovie.jpg"))
-//
-//            }
-//       }
-//       }
-        
-        
         return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let vc = storyboard?.instantiateViewController(identifier: "MovieDetailsViewController") as? MovieDetailsViewController
         
-        func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-            let vc = storyboard?.instantiateViewController(identifier: "MovieDetailsViewController") as? MovieDetailsViewController
-            
-            //vc?.navItem.title = moviesArr[indexPath.row]["name"] as? String
-            vc?.movieName = moviesArr[indexPath.row]["name"] as! String
-            vc?.movieGenre = moviesArr[indexPath.row]["genre"] as! String
-            vc?.movieActors = moviesArr[indexPath.row]["actors"] as! String
-            vc?.movieDirector = moviesArr[indexPath.row]["director"] as! String
-            vc?.desc = moviesArr[indexPath.row]["description"] as! String
-            self.navigationController?.pushViewController(vc!, animated: true)
-        }
- }
+        vc?.movieName = moviesArr[indexPath.row]["name"] as! String
+        vc?.movieGenre = moviesArr[indexPath.row]["genre"] as! String
+        vc?.movieActors = moviesArr[indexPath.row]["actors"] as! String
+        vc?.movieDirector = moviesArr[indexPath.row]["director"] as! String
+        vc?.desc = moviesArr[indexPath.row]["description"] as! String
+        
+        // Get image url and set it to imageView
+        let url = moviesArr[indexPath.row]["image_url"] as! String
+        let imageRef = self.storage.reference(forURL: url)
+        vc?.movieImage = imageRef
+        self.navigationController?.pushViewController(vc!, animated: true)
+    }
+}
 
 extension UIImageView {
     func load(url: URL) {
@@ -200,17 +184,17 @@ extension UIImageView {
 
 extension String {
     private static let slugSafeCharacters = CharacterSet(charactersIn: "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-")
-
+    
     public func convertedToSlug() -> String? {
         if let latin = self.applyingTransform(StringTransform("Any-Latin; Latin-ASCII; Lower;"), reverse: false) {
             let urlComponents = latin.components(separatedBy: String.slugSafeCharacters.inverted)
             let result = urlComponents.filter { $0 != "" }.joined(separator: "-")
-
+            
             if result.count > 0 {
                 return result
             }
         }
-
+        
         return nil
     }
 }

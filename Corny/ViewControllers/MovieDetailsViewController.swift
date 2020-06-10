@@ -7,18 +7,18 @@
 //
 
 import UIKit
+import FirebaseStorage
 
 class MovieDetailsViewController: UIViewController {
-
-    @IBOutlet weak var navItem: UINavigationItem!
+    
     @IBOutlet weak var image: UIImageView!
     @IBOutlet weak var name: UILabel!
     @IBOutlet weak var genre: UILabel!
     @IBOutlet weak var actors: UILabel!
-    @IBOutlet weak var director: UILabel!
+    @IBOutlet weak var directors: UILabel!
     @IBOutlet weak var movieDesc: UILabel!
     
-    var movieImage = ""
+    var movieImage: StorageReference!
     var movieName = ""
     var movieGenre = ""
     var movieActors = ""
@@ -27,12 +27,13 @@ class MovieDetailsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //image.text = movieImage
-//        name.text = movieName
-//        genre.text = movieGenre
-//        actors.text = movieActors
-//        director.text = movieDirector
-//        movieDesc.text = desc
+//        image = UIImageView()
+        image.sd_setImage(with: movieImage, placeholderImage: UIImage(named: "defaultMovie.jpg"))
+        name.text = movieName
+        genre.text = movieGenre
+        actors.text = movieActors
+        directors.text = movieDirector
+        movieDesc.text = desc
         
         // Do any additional setup after loading the view.
     }
