@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7E2699FF240C582E00FBF52E /* MovieDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2699FE240C582E00FBF52E /* MovieDetailsViewController.swift */; };
+		7E9B0A6A2406EFF8002A5A12 /* MovieCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E9B0A682406EFF8002A5A12 /* MovieCollectionViewCell.swift */; };
+		7E9B0A6B2406EFF8002A5A12 /* MovieCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E9B0A692406EFF8002A5A12 /* MovieCollectionViewCell.xib */; };
 		A03F0F6A23D08DCE00508747 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A03F0F6923D08DCE00508747 /* SignUpViewController.swift */; };
 		A03F0F6C23D08DE000508747 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A03F0F6B23D08DE000508747 /* LoginViewController.swift */; };
 		A03F0F6E23D08DF000508747 /* MoviesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A03F0F6D23D08DF000508747 /* MoviesViewController.swift */; };
@@ -28,6 +31,9 @@
 
 /* Begin PBXFileReference section */
 		06F577A5EC83D867FCF8C254 /* Pods-Corny.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Corny.release.xcconfig"; path = "Target Support Files/Pods-Corny/Pods-Corny.release.xcconfig"; sourceTree = "<group>"; };
+		7E2699FE240C582E00FBF52E /* MovieDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsViewController.swift; sourceTree = "<group>"; };
+		7E9B0A682406EFF8002A5A12 /* MovieCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCollectionViewCell.swift; sourceTree = "<group>"; };
+		7E9B0A692406EFF8002A5A12 /* MovieCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MovieCollectionViewCell.xib; sourceTree = "<group>"; };
 		864C3D4E5E5A00AE53CF1C92 /* Pods_Corny.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Corny.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A03F0F6923D08DCE00508747 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		A03F0F6B23D08DE000508747 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -78,6 +84,9 @@
 				A03F0F6D23D08DF000508747 /* MoviesViewController.swift */,
 				A045039F23CF0BFD00156DE0 /* ViewController.swift */,
 				A09C4C0023D5E4BA00BFFB45 /* EditMovieViewController.swift */,
+				7E9B0A682406EFF8002A5A12 /* MovieCollectionViewCell.swift */,
+				7E9B0A692406EFF8002A5A12 /* MovieCollectionViewCell.xib */,
+				7E2699FE240C582E00FBF52E /* MovieDetailsViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -216,6 +225,7 @@
 				A06DECAD23D4994200BE3C5E /* intro.mp4 in Resources */,
 				A04503A823CF0BFE00156DE0 /* LaunchScreen.storyboard in Resources */,
 				A04503B023CF10F400156DE0 /* GoogleService-Info.plist in Resources */,
+				7E9B0A6B2406EFF8002A5A12 /* MovieCollectionViewCell.xib in Resources */,
 				A04503A523CF0BFE00156DE0 /* Assets.xcassets in Resources */,
 				A098F32023D5B20A0075E6F4 /* Corny.storyboard in Resources */,
 				A04503A323CF0BFD00156DE0 /* Main.storyboard in Resources */,
@@ -277,8 +287,10 @@
 				A03F0F6A23D08DCE00508747 /* SignUpViewController.swift in Sources */,
 				A03F0F6C23D08DE000508747 /* LoginViewController.swift in Sources */,
 				A0F7A83723D09CAB00FF3428 /* Constants.swift in Sources */,
+				7E2699FF240C582E00FBF52E /* MovieDetailsViewController.swift in Sources */,
 				A045039E23CF0BFD00156DE0 /* SceneDelegate.swift in Sources */,
 				A09C4C0123D5E4BA00BFFB45 /* EditMovieViewController.swift in Sources */,
+				7E9B0A6A2406EFF8002A5A12 /* MovieCollectionViewCell.swift in Sources */,
 				A0F7A83823D09CAB00FF3428 /* Utilities.swift in Sources */,
 				A03F0F6E23D08DF000508747 /* MoviesViewController.swift in Sources */,
 			);
@@ -426,6 +438,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 55UFKU2342;
 				INFOPLIST_FILE = Corny/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -444,6 +457,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 55UFKU2342;
 				INFOPLIST_FILE = Corny/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
