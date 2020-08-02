@@ -24,16 +24,19 @@ class MovieDetailsViewController: UIViewController {
     var movieActors = ""
     var movieDirector = ""
     var desc = ""
+    var user: [String: Any] = [:]
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        createEditButtonOnNavigationBar()
         image.sd_setImage(with: movieImage, placeholderImage: UIImage(named: "defaultMovie.jpg"))
         name.text = movieName
         genre.text = movieGenre
         actors.text = movieActors
         directors.text = movieDirector
         movieDesc.text = desc
+        if (user["is_admin"] as! Bool) {
+            createEditButtonOnNavigationBar()
+        }
     }
     
     func createEditButtonOnNavigationBar() {

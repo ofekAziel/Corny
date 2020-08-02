@@ -176,6 +176,7 @@ extension MoviesViewController: UICollectionViewDelegate, UICollectionViewDataSo
         vc?.movieActors = moviesArr[indexPath.row]["actors"] as! String
         vc?.movieDirector = moviesArr[indexPath.row]["director"] as! String
         vc?.desc = moviesArr[indexPath.row]["description"] as! String
+        vc?.user = currentUser
         
         // Get image url and set it to imageView
         let url = moviesArr[indexPath.row]["image_url"] as! String
