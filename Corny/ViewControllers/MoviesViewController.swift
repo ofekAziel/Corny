@@ -94,10 +94,6 @@ class MoviesViewController: UIViewController {
     }
     
     @objc func addMovie() {
-        transitionToEditMovieScreen()
-    }
-    
-    func transitionToEditMovieScreen() {
         performSegue(withIdentifier: "addMovie", sender: self)
     }
     

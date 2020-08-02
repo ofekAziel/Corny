@@ -13,22 +13,21 @@ import FirebaseStorage
 class EditMovieViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     @IBOutlet weak var movieImageView: UIImageView!
-    
     @IBOutlet weak var imagePickerButton: UIButton!
-    
     @IBOutlet weak var movieNameTextField: UITextField!
-    
     @IBOutlet weak var genreTextField: UITextField!
-    
     @IBOutlet weak var actorsTextField: UITextField!
-    
     @IBOutlet weak var directorTextField: UITextField!
-    
     @IBOutlet weak var descriptionTextView: UITextView!
-    
     @IBOutlet weak var deleteButton: UIButton!
     
     var isAddMovie = false
+    var movieImage: StorageReference!
+    var movieName = ""
+    var genre = ""
+    var actors = ""
+    var director = ""
+    var movieDescription = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,6 +56,12 @@ class EditMovieViewController: UIViewController, UIImagePickerControllerDelegate
     func setUpElementsForEditing() {
         Utilities.styleFilledButton(deleteButton)
         self.navigationItem.title = "Edit Movie"
+        movieImageView.sd_setImage(with: movieImage, placeholderImage: UIImage(named: "defaultMovie.jpg"))
+        movieNameTextField.text = movieName
+        genreTextField.text = genre
+        actorsTextField.text = actors
+        directorTextField.text = director
+        descriptionTextView.text = movieDescription
     }
     
     func createSaveButtonOnNavigationBar() {

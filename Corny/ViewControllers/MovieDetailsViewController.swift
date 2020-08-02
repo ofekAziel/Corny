@@ -27,16 +27,32 @@ class MovieDetailsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        image = UIImageView()
+        createEditButtonOnNavigationBar()
         image.sd_setImage(with: movieImage, placeholderImage: UIImage(named: "defaultMovie.jpg"))
         name.text = movieName
         genre.text = movieGenre
         actors.text = movieActors
         directors.text = movieDirector
         movieDesc.text = desc
-        
-        // Do any additional setup after loading the view.
     }
     
-
+    func createEditButtonOnNavigationBar() {
+        let editMoviewButton = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(transitionToEditMovieScreen))
+        self.navigationItem.rightBarButtonItem = editMoviewButton
+    }
+    
+    @objc func transitionToEditMovieScreen() {
+        performSegue(withIdentifier: "editMovie", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let destinationVC = segue.destination as! EditMovieViewController
+        destinationVC.isAddMovie = false
+        destinationVC.movieImage = movieImage
+        destinationVC.movieName = movieName
+        destinationVC.genre = movieGenre
+        destinationVC.actors = movieActors
+        destinationVC.director = movieDirector
+        destinationVC.movieDescription = desc
+    }
 }

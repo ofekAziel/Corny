@@ -67,7 +67,7 @@
                     <connections>
                         <outlet property="collectionView" destination="HrK-V1-erp" id="zE4-7t-Oml"/>
                         <segue destination="Yve-Az-xwz" kind="show" identifier="addMovie" id="ZLG-tA-YQs"/>
-                        <segue destination="O8s-6o-iT1" kind="show" id="eit-lW-eP3"/>
+                        <segue destination="O8s-6o-iT1" kind="show" identifier="" id="eit-lW-eP3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qIO-4g-7k5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -137,11 +137,12 @@
                         <outlet property="image" destination="160-jO-BLc" id="ODh-6K-Yhd"/>
                         <outlet property="movieDesc" destination="bcU-1h-E7O" id="Qa0-kU-SbU"/>
                         <outlet property="name" destination="G2E-uh-yPf" id="ax2-f0-R3o"/>
+                        <segue destination="Yve-Az-xwz" kind="show" identifier="editMovie" id="8yJ-Oh-kyH"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Q7P-Gc-H8u" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3033.3333333333335" y="-88.392857142857139"/>
+            <point key="canvasLocation" x="3030" y="-154"/>
         </scene>
         <!--Add Movie-->
         <scene sceneID="qpu-eO-NkJ">
@@ -283,4 +284,7 @@
     <resources>
         <image name="defaultMovie.jpg" width="933.1199951171875" height="622.08001708984375"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="8yJ-Oh-kyH"/>
+    </inferredMetricsTieBreakers>
 </document>
