@@ -32,7 +32,6 @@ class LoginViewController: UIViewController {
        }
     
     @IBAction func loginTapped(_ sender: Any) {
-//        self.transitionToMovieScreen()
         let error = validateFields()
           
           if error != nil {

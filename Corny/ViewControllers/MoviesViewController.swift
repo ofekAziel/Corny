@@ -11,6 +11,7 @@ import FirebaseDatabase
 import FirebaseFirestore
 import FirebaseStorage
 import FirebaseUI
+import FirebaseAuth
 
 struct movie {
     var actors: String
@@ -29,20 +30,22 @@ class MoviesViewController: UIViewController {
     var storageRef: StorageReference!
     var storage: Storage!
     var moviesArr: [[String : Any]] = []
+    var currentUser: [String: Any] = [:]
     
     var collectionViewFlowLayout: UICollectionViewFlowLayout!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        db = Firestore.firestore()
+        storage = Storage.storage()
+        storageRef = storage.reference()
         
         self.getData()
-        
         collectionView.delegate = self
         collectionView.dataSource = self
         let nib = UINib(nibName: "MovieCollectionViewCell", bundle: nil)
         collectionView.register(nib, forCellWithReuseIdentifier: "MovieCell")
-        
-        createAddButtonOnNavigationBar()
+        getCurrentUser()
     }
     
     override func viewWillLayoutSubviews() {
@@ -50,11 +53,29 @@ class MoviesViewController: UIViewController {
         setupCollectionViewItemSize()
     }
     
-    private func getData() {
-        db = Firestore.firestore()
-        storage = Storage.storage()
-        storageRef = storage.reference()
+    private func getCurrentUser() {
+        let currentUserUid = Auth.auth().currentUser!.uid
+        db.collection("users").whereField("user_uid", isEqualTo: currentUserUid).getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                self.showAlert(alertText: err.localizedDescription)
+            } else {
+                self.currentUser = querySnapshot!.documents.first!.data()
+                if (self.currentUser["is_admin"] as! Bool) {
+                    self.createAddButtonOnNavigationBar()
+                }
+            }
+        }
+    }
+    
+    func showAlert(alertText:String) {
+        let alert = UIAlertController(title: "Error", message: alertText, preferredStyle: UIAlertController.Style.alert)
         
+        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.destructive, handler: nil))
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    private func getData() {
         let collectionRef = db.collection("movies")
         
         collectionRef.addSnapshotListener { (querySnapshot, err) in
