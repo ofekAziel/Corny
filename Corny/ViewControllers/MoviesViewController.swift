@@ -31,8 +31,9 @@ class MoviesViewController: UIViewController {
     var storage: Storage!
     var moviesArr: [[String : Any]] = []
     var currentUser: [String: Any] = [:]
-    
     var collectionViewFlowLayout: UICollectionViewFlowLayout!
+    var spinner: UIActivityIndicatorView!
+    var aView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,6 +41,7 @@ class MoviesViewController: UIViewController {
         storage = Storage.storage()
         storageRef = storage.reference()
         
+        makeSpinner()
         self.getData()
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -53,6 +55,21 @@ class MoviesViewController: UIViewController {
         setupCollectionViewItemSize()
     }
     
+    private func makeSpinner() {
+        aView = UIView(frame: self.view.bounds)
+        aView.backgroundColor = UIColor.init(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.5)
+        spinner = UIActivityIndicatorView(style: .large)
+        spinner.center = aView.center
+        spinner.startAnimating()
+        aView.addSubview(spinner)
+        self.view.addSubview(aView)
+    }
+    
+    private func removeSpinner() {
+        aView.removeFromSuperview()
+        aView = nil
+    }
+    
     private func getCurrentUser() {
         let currentUserUid = Auth.auth().currentUser!.uid
         db.collection("users").whereField("user_uid", isEqualTo: currentUserUid).getDocuments() { (querySnapshot, err) in
@@ -60,6 +77,7 @@ class MoviesViewController: UIViewController {
                 self.showAlert(alertText: err.localizedDescription)
             } else {
                 self.currentUser = querySnapshot!.documents.first!.data()
+                self.removeSpinner()
                 if (self.currentUser["is_admin"] as! Bool) {
                     self.createAddButtonOnNavigationBar()
                 }
@@ -176,7 +194,7 @@ extension MoviesViewController: UICollectionViewDelegate, UICollectionViewDataSo
         vc?.movieActors = moviesArr[indexPath.row]["actors"] as! String
         vc?.movieDirector = moviesArr[indexPath.row]["director"] as! String
         vc?.desc = moviesArr[indexPath.row]["description"] as! String
-        vc?.user = currentUser
+        vc?.currentUser = currentUser
         
         // Get image url and set it to imageView
         let url = moviesArr[indexPath.row]["image_url"] as! String
