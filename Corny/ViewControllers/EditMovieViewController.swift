@@ -74,7 +74,7 @@ class EditMovieViewController: UIViewController, UIImagePickerControllerDelegate
             showAlert(alertText: "Can't save movie please fill in all fields.")
         } else {
             if isAddMovie {
-                uploadPhotoAndMoviewToFirestore()
+                uploadPhotoAndMovieToFirestore()
             }
         }
     }
@@ -102,7 +102,7 @@ class EditMovieViewController: UIViewController, UIImagePickerControllerDelegate
         }
     }
     
-    func uploadPhotoAndMoviewToFirestore() {
+    func uploadPhotoAndMovieToFirestore() {
         guard let image = movieImageView.image, let data = image.jpegData(compressionQuality: 1.0) else {
             showAlert(alertText: "Something went wrong...")
             return
