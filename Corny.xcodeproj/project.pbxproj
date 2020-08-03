@@ -85,7 +85,6 @@
 				A045039F23CF0BFD00156DE0 /* ViewController.swift */,
 				A09C4C0023D5E4BA00BFFB45 /* EditMovieViewController.swift */,
 				7E9B0A682406EFF8002A5A12 /* MovieCollectionViewCell.swift */,
-				7E9B0A692406EFF8002A5A12 /* MovieCollectionViewCell.xib */,
 				7E2699FE240C582E00FBF52E /* MovieDetailsViewController.swift */,
 			);
 			path = ViewControllers;
@@ -129,6 +128,7 @@
 		A098F31E23D5B1730075E6F4 /* Stroyboards */ = {
 			isa = PBXGroup;
 			children = (
+				7E9B0A692406EFF8002A5A12 /* MovieCollectionViewCell.xib */,
 				A04503A123CF0BFD00156DE0 /* Main.storyboard */,
 				A098F31F23D5B20A0075E6F4 /* Corny.storyboard */,
 			);
