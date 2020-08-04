@@ -23,6 +23,7 @@ class EditMovieViewController: UIViewController, UIImagePickerControllerDelegate
     
     var isAddMovie = false
     var movieImage: StorageReference!
+    var documentId = ""
     var movieName = ""
     var genre = ""
     var actors = ""
@@ -73,17 +74,34 @@ class EditMovieViewController: UIViewController, UIImagePickerControllerDelegate
         if validateFields() != nil {
             showAlert(alertText: "Can't save movie please fill in all fields.")
         } else {
-            if isAddMovie {
-                uploadPhotoAndMovieToFirestore()
+            uploadPhotoAndMovieToFirestore()
+        }
+    }
+    
+    @IBAction func deleteMovie(_ sender: UIButton) {
+        Utilities.makeSpinner(view: self.view)
+        deleteMoviePhoto()
+        Firestore.firestore().collection(Constants.Firestore.moviesCollection).document(documentId).delete() { err in
+            if err != nil {
+                self.showAlert(alertText: "Can't remove movie")
+            } else {
+                Utilities.removeSpinner()
+                self.navigationController?.popToRootViewController(animated: true)
+            }
+        }
+    }
+    
+    func deleteMoviePhoto() {
+        movieImage.delete { error in
+            if error != nil {
+                self.showAlert(alertText: "Cannot delete movie image")
             }
         }
     }
     
     func showAlert(alertText:String) {
         let alert = UIAlertController(title: "Error", message: alertText, preferredStyle: UIAlertController.Style.alert)
-        
         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.destructive, handler: nil))
-        
         self.present(alert, animated: true, completion: nil)
     }
     
@@ -97,12 +115,14 @@ class EditMovieViewController: UIViewController, UIImagePickerControllerDelegate
             if err != nil {
                 self.showAlert(alertText: "Can't save movie data.")
             } else {
+                Utilities.removeSpinner()
                 self.navigationController?.popViewController(animated: true)
             }
         }
     }
     
     func uploadPhotoAndMovieToFirestore() {
+        Utilities.makeSpinner(view: self.view)
         guard let image = movieImageView.image, let data = image.jpegData(compressionQuality: 1.0) else {
             showAlert(alertText: "Something went wrong...")
             return

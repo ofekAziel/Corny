@@ -43,7 +43,7 @@ class SignUpViewController: UIViewController {
         let error = validateFields()
         
         if error != nil {
-            showError(error!)
+            Utilities.showError(error!, errorLabel: errorLabel)
         } else {
             let firstName = firstNameTextField.text!.trimmingCharacters(in:.whitespacesAndNewlines)
             let lastName = lastNameTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -58,7 +58,7 @@ class SignUpViewController: UIViewController {
     func createUser(firstName:String, lastName:String, email:String, password:String) {
         Auth.auth().createUser(withEmail: email, password: password) { (result, err) in
             if err != nil {
-                self.showError("Error creating user.")
+                Utilities.showError("Error creating user.", errorLabel: self.errorLabel)
             } else {
                 
                 let usersRef = Firestore.firestore().collection(Constants.Firestore.usersCollection).document()
@@ -67,7 +67,7 @@ class SignUpViewController: UIViewController {
                 
                 usersRef.setData(userData) { (err) in
                     if err != nil {
-                        self.showError("Can't save this movie.")
+                        Utilities.showError("Can't save this movie.", errorLabel: self.errorLabel)
                     }
                 }
             }
@@ -108,10 +108,5 @@ class SignUpViewController: UIViewController {
             lastNameTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" ||
             emailTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" ||
             passwordTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == ""
-    }
-    
-    func showError(_ message:String) {
-        errorLabel.text = message
-        errorLabel.alpha = 1
     }
 }

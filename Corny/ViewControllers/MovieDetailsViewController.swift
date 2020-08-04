@@ -18,13 +18,14 @@ class MovieDetailsViewController: UIViewController {
     @IBOutlet weak var directors: UILabel!
     @IBOutlet weak var movieDesc: UILabel!
     
+    var movieDocumentId = ""
     var movieImage: StorageReference!
     var movieName = ""
     var movieGenre = ""
     var movieActors = ""
     var movieDirector = ""
     var desc = ""
-    var user: [String: Any] = [:]
+    var currentUser: [String: Any] = [:]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,7 +35,7 @@ class MovieDetailsViewController: UIViewController {
         actors.text = movieActors
         directors.text = movieDirector
         movieDesc.text = desc
-        if (user["is_admin"] as! Bool) {
+        if (currentUser["is_admin"] as! Bool) {
             createEditButtonOnNavigationBar()
         }
     }
@@ -50,6 +51,7 @@ class MovieDetailsViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let destinationVC = segue.destination as! EditMovieViewController
+        destinationVC.documentId = movieDocumentId
         destinationVC.isAddMovie = false
         destinationVC.movieImage = movieImage
         destinationVC.movieName = movieName

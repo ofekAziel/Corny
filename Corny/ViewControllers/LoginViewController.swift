@@ -35,7 +35,7 @@ class LoginViewController: UIViewController {
         let error = validateFields()
           
           if error != nil {
-              showError(error!)
+            Utilities.showError(error!, errorLabel: errorLabel)
           } else {
             let email = emailTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
             let password = passwordTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -46,7 +46,7 @@ class LoginViewController: UIViewController {
     func signIn(email: String, password: String) {
         Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
               if error != nil {
-                  self.showError(error!.localizedDescription)
+                Utilities.showError(error!.localizedDescription, errorLabel: self.errorLabel)
               } else {
                   self.transitionToMovieScreen()
               }
@@ -75,10 +75,5 @@ class LoginViewController: UIViewController {
     func isTextFieldsEmpty() -> Bool {
         return emailTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" ||
             passwordTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == ""
-    }
-    
-    func showError(_ message:String) {
-        errorLabel.text = message
-        errorLabel.alpha = 1
     }
 }
