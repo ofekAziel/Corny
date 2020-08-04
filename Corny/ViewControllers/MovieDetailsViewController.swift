@@ -18,6 +18,7 @@ class MovieDetailsViewController: UIViewController {
     @IBOutlet weak var directors: UILabel!
     @IBOutlet weak var movieDesc: UILabel!
     
+    var movieDocumentId = ""
     var movieImage: StorageReference!
     var movieName = ""
     var movieGenre = ""
@@ -50,6 +51,7 @@ class MovieDetailsViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let destinationVC = segue.destination as! EditMovieViewController
+        destinationVC.documentId = movieDocumentId
         destinationVC.isAddMovie = false
         destinationVC.movieImage = movieImage
         destinationVC.movieName = movieName

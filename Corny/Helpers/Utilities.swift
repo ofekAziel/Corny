@@ -11,6 +11,9 @@ import UIKit
 
 class Utilities {
     
+    static var aView: UIView!
+    static var spinner: UIActivityIndicatorView!
+    
     static func styleTextField(_ textfield:UITextField) {
         
         // Create the bottom line
@@ -54,6 +57,21 @@ class Utilities {
         
         let passwordTest = NSPredicate(format: "SELF MATCHES %@", "^(?=.*[a-z])(?=.*[$@$#!%*?&])[A-Za-z\\d$@$#!%*?&]{8,}")
         return passwordTest.evaluate(with: password)
+    }
+    
+    static func makeSpinner(view: UIView) {
+        aView = UIView(frame: view.bounds)
+        aView.backgroundColor = UIColor.init(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.5)
+        spinner = UIActivityIndicatorView(style: .large)
+        spinner.center = aView.center
+        spinner.startAnimating()
+        aView.addSubview(spinner)
+        view.addSubview(aView)
+    }
+    
+    static func removeSpinner() {
+        aView.removeFromSuperview()
+        aView = nil
     }
     
 }

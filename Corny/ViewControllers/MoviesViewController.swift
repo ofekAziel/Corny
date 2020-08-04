@@ -32,8 +32,6 @@ class MoviesViewController: UIViewController {
     var moviesArr: [[String : Any]] = []
     var currentUser: [String: Any] = [:]
     var collectionViewFlowLayout: UICollectionViewFlowLayout!
-    var spinner: UIActivityIndicatorView!
-    var aView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,7 +39,7 @@ class MoviesViewController: UIViewController {
         storage = Storage.storage()
         storageRef = storage.reference()
         
-        makeSpinner()
+        Utilities.makeSpinner(view: self.view)
         self.getData()
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -55,29 +53,14 @@ class MoviesViewController: UIViewController {
         setupCollectionViewItemSize()
     }
     
-    private func makeSpinner() {
-        aView = UIView(frame: self.view.bounds)
-        aView.backgroundColor = UIColor.init(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.5)
-        spinner = UIActivityIndicatorView(style: .large)
-        spinner.center = aView.center
-        spinner.startAnimating()
-        aView.addSubview(spinner)
-        self.view.addSubview(aView)
-    }
-    
-    private func removeSpinner() {
-        aView.removeFromSuperview()
-        aView = nil
-    }
-    
     private func getCurrentUser() {
         let currentUserUid = Auth.auth().currentUser!.uid
-        db.collection("users").whereField("user_uid", isEqualTo: currentUserUid).getDocuments() { (querySnapshot, err) in
+        db.collection(Constants.Firestore.usersCollection).whereField("user_uid", isEqualTo: currentUserUid).getDocuments() { (querySnapshot, err) in
             if let err = err {
                 self.showAlert(alertText: err.localizedDescription)
             } else {
                 self.currentUser = querySnapshot!.documents.first!.data()
-                self.removeSpinner()
+                Utilities.removeSpinner()
                 if (self.currentUser["is_admin"] as! Bool) {
                     self.createAddButtonOnNavigationBar()
                 }
@@ -87,20 +70,21 @@ class MoviesViewController: UIViewController {
     
     func showAlert(alertText:String) {
         let alert = UIAlertController(title: "Error", message: alertText, preferredStyle: UIAlertController.Style.alert)
-        
         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.destructive, handler: nil))
-        
         self.present(alert, animated: true, completion: nil)
     }
     
     private func getData() {
+        var data: [String: Any] = [:]
         let collectionRef = db.collection("movies")
         
         collectionRef.addSnapshotListener { (querySnapshot, err) in
             self.moviesArr = [];
             if let movies = querySnapshot?.documents {
                 for movie in movies {
-                    self.moviesArr.append(movie.data())
+                    data = movie.data()
+                    data.updateValue(movie.documentID, forKey: "documentId")
+                    self.moviesArr.append(data)
                 }
                 
                 self.collectionView?.reloadData()
@@ -112,17 +96,14 @@ class MoviesViewController: UIViewController {
         if (collectionViewFlowLayout == nil) {
             let screenSize: CGRect = UIScreen.main.bounds
             let width = ( screenSize.width / 2 ) - 10
-            let height = 250//width
+            let height = 250
             
             collectionViewFlowLayout = UICollectionViewFlowLayout()
-            
             collectionViewFlowLayout.itemSize = CGSize(width: Int(width), height: height)
             collectionViewFlowLayout.sectionInset = UIEdgeInsets.zero
             collectionViewFlowLayout.scrollDirection = .vertical
             collectionViewFlowLayout.minimumLineSpacing = 10
             collectionViewFlowLayout.minimumInteritemSpacing = 5
-            
-            //collectionView.contentInset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5);
             collectionView.setCollectionViewLayout(collectionViewFlowLayout, animated: true)
         }
     }
@@ -154,22 +135,17 @@ extension MoviesViewController: UICollectionViewDelegate, UICollectionViewDataSo
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MovieCell", for: indexPath) as! MovieCollectionViewCell
-        
         let cellIndex = indexPath.row
         
         cell.contentView.layer.masksToBounds = false
         cell.contentView.layer.backgroundColor = UIColor.white.cgColor
         cell.contentView.layer.cornerRadius = 12
-        
         cell.layer.masksToBounds = false
         cell.layer.borderColor = UIColor.lightGray.cgColor
-        
         cell.layer.shadowOffset = CGSize(width: 0, height: 0)
         cell.layer.shadowColor = UIColor.black.cgColor
         cell.layer.shadowRadius = 4
         cell.layer.shadowOpacity = 0.23
-        
-        //cell.layer.borderWidth = 1
         cell.layer.cornerRadius = 12
         
         let radius = cell.contentView.layer.cornerRadius
@@ -189,6 +165,7 @@ extension MoviesViewController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let vc = storyboard?.instantiateViewController(identifier: "MovieDetailsViewController") as? MovieDetailsViewController
         
+        vc?.movieDocumentId = moviesArr[indexPath.row]["documentId"] as! String
         vc?.movieName = moviesArr[indexPath.row]["name"] as! String
         vc?.movieGenre = moviesArr[indexPath.row]["genre"] as! String
         vc?.movieActors = moviesArr[indexPath.row]["actors"] as! String

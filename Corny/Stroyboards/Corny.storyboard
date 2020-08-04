@@ -243,6 +243,9 @@
                                     <constraint firstAttribute="height" constant="50" id="nEB-EG-9u2"/>
                                 </constraints>
                                 <state key="normal" title="Delete"/>
+                                <connections>
+                                    <action selector="deleteMovie:" destination="Yve-Az-xwz" eventType="touchUpInside" id="OHY-oM-nCv"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
