@@ -74,20 +74,27 @@ class EditMovieViewController: UIViewController, UIImagePickerControllerDelegate
         if validateFields() != nil {
             showAlert(alertText: "Can't save movie please fill in all fields.")
         } else {
-            if isAddMovie {
-                uploadPhotoAndMovieToFirestore()
-            }
+            uploadPhotoAndMovieToFirestore()
         }
     }
     
     @IBAction func deleteMovie(_ sender: UIButton) {
         Utilities.makeSpinner(view: self.view)
+        deleteMoviePhoto()
         Firestore.firestore().collection(Constants.Firestore.moviesCollection).document(documentId).delete() { err in
             if err != nil {
                 self.showAlert(alertText: "Can't remove movie")
             } else {
                 Utilities.removeSpinner()
                 self.navigationController?.popToRootViewController(animated: true)
+            }
+        }
+    }
+    
+    func deleteMoviePhoto() {
+        movieImage.delete { error in
+            if error != nil {
+                self.showAlert(alertText: "Cannot delete movie image")
             }
         }
     }
