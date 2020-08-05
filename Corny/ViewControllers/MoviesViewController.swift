@@ -11,6 +11,7 @@ import FirebaseDatabase
 import FirebaseFirestore
 import FirebaseStorage
 import FirebaseUI
+import FirebaseAuth
 
 struct movie {
     var actors: String
@@ -29,20 +30,22 @@ class MoviesViewController: UIViewController {
     var storageRef: StorageReference!
     var storage: Storage!
     var moviesArr: [[String : Any]] = []
-    
+    var currentUser: [String: Any] = [:]
     var collectionViewFlowLayout: UICollectionViewFlowLayout!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        db = Firestore.firestore()
+        storage = Storage.storage()
+        storageRef = storage.reference()
         
+        Utilities.makeSpinner(view: self.view)
         self.getData()
-        
         collectionView.delegate = self
         collectionView.dataSource = self
         let nib = UINib(nibName: "MovieCollectionViewCell", bundle: nil)
         collectionView.register(nib, forCellWithReuseIdentifier: "MovieCell")
-        
-        createAddButtonOnNavigationBar()
+        getCurrentUser()
     }
     
     override func viewWillLayoutSubviews() {
@@ -50,18 +53,38 @@ class MoviesViewController: UIViewController {
         setupCollectionViewItemSize()
     }
     
+    private func getCurrentUser() {
+        let currentUserUid = Auth.auth().currentUser!.uid
+        db.collection(Constants.Firestore.usersCollection).whereField("user_uid", isEqualTo: currentUserUid).getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                self.showAlert(alertText: err.localizedDescription)
+            } else {
+                self.currentUser = querySnapshot!.documents.first!.data()
+                Utilities.removeSpinner()
+                if (self.currentUser["is_admin"] as! Bool) {
+                    self.createAddButtonOnNavigationBar()
+                }
+            }
+        }
+    }
+    
+    func showAlert(alertText:String) {
+        let alert = UIAlertController(title: "Error", message: alertText, preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.destructive, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
     private func getData() {
-        db = Firestore.firestore()
-        storage = Storage.storage()
-        storageRef = storage.reference()
-        
+        var data: [String: Any] = [:]
         let collectionRef = db.collection("movies")
         
         collectionRef.addSnapshotListener { (querySnapshot, err) in
             self.moviesArr = [];
             if let movies = querySnapshot?.documents {
                 for movie in movies {
-                    self.moviesArr.append(movie.data())
+                    data = movie.data()
+                    data.updateValue(movie.documentID, forKey: "documentId")
+                    self.moviesArr.append(data)
                 }
                 
                 self.collectionView?.reloadData()
@@ -73,17 +96,14 @@ class MoviesViewController: UIViewController {
         if (collectionViewFlowLayout == nil) {
             let screenSize: CGRect = UIScreen.main.bounds
             let width = ( screenSize.width / 2 ) - 10
-            let height = 250//width
+            let height = 250
             
             collectionViewFlowLayout = UICollectionViewFlowLayout()
-            
             collectionViewFlowLayout.itemSize = CGSize(width: Int(width), height: height)
             collectionViewFlowLayout.sectionInset = UIEdgeInsets.zero
             collectionViewFlowLayout.scrollDirection = .vertical
             collectionViewFlowLayout.minimumLineSpacing = 10
             collectionViewFlowLayout.minimumInteritemSpacing = 5
-            
-            //collectionView.contentInset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5);
             collectionView.setCollectionViewLayout(collectionViewFlowLayout, animated: true)
         }
     }
@@ -94,10 +114,6 @@ class MoviesViewController: UIViewController {
     }
     
     @objc func addMovie() {
-        transitionToEditMovieScreen()
-    }
-    
-    func transitionToEditMovieScreen() {
         performSegue(withIdentifier: "addMovie", sender: self)
     }
     
@@ -119,22 +135,17 @@ extension MoviesViewController: UICollectionViewDelegate, UICollectionViewDataSo
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MovieCell", for: indexPath) as! MovieCollectionViewCell
-        
         let cellIndex = indexPath.row
         
         cell.contentView.layer.masksToBounds = false
         cell.contentView.layer.backgroundColor = UIColor.white.cgColor
         cell.contentView.layer.cornerRadius = 12
-        
         cell.layer.masksToBounds = false
         cell.layer.borderColor = UIColor.lightGray.cgColor
-        
         cell.layer.shadowOffset = CGSize(width: 0, height: 0)
         cell.layer.shadowColor = UIColor.black.cgColor
         cell.layer.shadowRadius = 4
         cell.layer.shadowOpacity = 0.23
-        
-        //cell.layer.borderWidth = 1
         cell.layer.cornerRadius = 12
         
         let radius = cell.contentView.layer.cornerRadius
@@ -154,11 +165,13 @@ extension MoviesViewController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let vc = storyboard?.instantiateViewController(identifier: "MovieDetailsViewController") as? MovieDetailsViewController
         
+        vc?.movieDocumentId = moviesArr[indexPath.row]["documentId"] as! String
         vc?.movieName = moviesArr[indexPath.row]["name"] as! String
         vc?.movieGenre = moviesArr[indexPath.row]["genre"] as! String
         vc?.movieActors = moviesArr[indexPath.row]["actors"] as! String
         vc?.movieDirector = moviesArr[indexPath.row]["director"] as! String
         vc?.desc = moviesArr[indexPath.row]["description"] as! String
+        vc?.currentUser = currentUser
         
         // Get image url and set it to imageView
         let url = moviesArr[indexPath.row]["image_url"] as! String

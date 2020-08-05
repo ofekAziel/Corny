@@ -18,25 +18,46 @@ class MovieDetailsViewController: UIViewController {
     @IBOutlet weak var directors: UILabel!
     @IBOutlet weak var movieDesc: UILabel!
     
+    var movieDocumentId = ""
     var movieImage: StorageReference!
     var movieName = ""
     var movieGenre = ""
     var movieActors = ""
     var movieDirector = ""
     var desc = ""
+    var currentUser: [String: Any] = [:]
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        image = UIImageView()
         image.sd_setImage(with: movieImage, placeholderImage: UIImage(named: "defaultMovie.jpg"))
         name.text = movieName
         genre.text = movieGenre
         actors.text = movieActors
         directors.text = movieDirector
         movieDesc.text = desc
-        
-        // Do any additional setup after loading the view.
+        if (currentUser["is_admin"] as! Bool) {
+            createEditButtonOnNavigationBar()
+        }
     }
     
-
+    func createEditButtonOnNavigationBar() {
+        let editMoviewButton = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(transitionToEditMovieScreen))
+        self.navigationItem.rightBarButtonItem = editMoviewButton
+    }
+    
+    @objc func transitionToEditMovieScreen() {
+        performSegue(withIdentifier: "editMovie", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let destinationVC = segue.destination as! EditMovieViewController
+        destinationVC.documentId = movieDocumentId
+        destinationVC.isAddMovie = false
+        destinationVC.movieImage = movieImage
+        destinationVC.movieName = movieName
+        destinationVC.genre = movieGenre
+        destinationVC.actors = movieActors
+        destinationVC.director = movieDirector
+        destinationVC.movieDescription = desc
+    }
 }

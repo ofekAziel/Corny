@@ -13,22 +13,22 @@ import FirebaseStorage
 class EditMovieViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     @IBOutlet weak var movieImageView: UIImageView!
-    
     @IBOutlet weak var imagePickerButton: UIButton!
-    
     @IBOutlet weak var movieNameTextField: UITextField!
-    
     @IBOutlet weak var genreTextField: UITextField!
-    
     @IBOutlet weak var actorsTextField: UITextField!
-    
     @IBOutlet weak var directorTextField: UITextField!
-    
     @IBOutlet weak var descriptionTextView: UITextView!
-    
     @IBOutlet weak var deleteButton: UIButton!
     
     var isAddMovie = false
+    var movieImage: StorageReference!
+    var documentId = ""
+    var movieName = ""
+    var genre = ""
+    var actors = ""
+    var director = ""
+    var movieDescription = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,6 +57,12 @@ class EditMovieViewController: UIViewController, UIImagePickerControllerDelegate
     func setUpElementsForEditing() {
         Utilities.styleFilledButton(deleteButton)
         self.navigationItem.title = "Edit Movie"
+        movieImageView.sd_setImage(with: movieImage, placeholderImage: UIImage(named: "defaultMovie.jpg"))
+        movieNameTextField.text = movieName
+        genreTextField.text = genre
+        actorsTextField.text = actors
+        directorTextField.text = director
+        descriptionTextView.text = movieDescription
     }
     
     func createSaveButtonOnNavigationBar() {
@@ -68,17 +74,34 @@ class EditMovieViewController: UIViewController, UIImagePickerControllerDelegate
         if validateFields() != nil {
             showAlert(alertText: "Can't save movie please fill in all fields.")
         } else {
-            if isAddMovie {
-                uploadPhotoAndMoviewToFirestore()
+            uploadPhotoAndMovieToFirestore()
+        }
+    }
+    
+    @IBAction func deleteMovie(_ sender: UIButton) {
+        Utilities.makeSpinner(view: self.view)
+        deleteMoviePhoto()
+        Firestore.firestore().collection(Constants.Firestore.moviesCollection).document(documentId).delete() { err in
+            if err != nil {
+                self.showAlert(alertText: "Can't remove movie")
+            } else {
+                Utilities.removeSpinner()
+                self.navigationController?.popToRootViewController(animated: true)
+            }
+        }
+    }
+    
+    func deleteMoviePhoto() {
+        movieImage.delete { error in
+            if error != nil {
+                self.showAlert(alertText: "Cannot delete movie image")
             }
         }
     }
     
     func showAlert(alertText:String) {
         let alert = UIAlertController(title: "Error", message: alertText, preferredStyle: UIAlertController.Style.alert)
-        
         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.destructive, handler: nil))
-        
         self.present(alert, animated: true, completion: nil)
     }
     
@@ -92,12 +115,14 @@ class EditMovieViewController: UIViewController, UIImagePickerControllerDelegate
             if err != nil {
                 self.showAlert(alertText: "Can't save movie data.")
             } else {
+                Utilities.removeSpinner()
                 self.navigationController?.popViewController(animated: true)
             }
         }
     }
     
-    func uploadPhotoAndMoviewToFirestore() {
+    func uploadPhotoAndMovieToFirestore() {
+        Utilities.makeSpinner(view: self.view)
         guard let image = movieImageView.image, let data = image.jpegData(compressionQuality: 1.0) else {
             showAlert(alertText: "Something went wrong...")
             return
