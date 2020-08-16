@@ -48,6 +48,11 @@ class MovieDetailsViewController: UIViewController, UITextViewDelegate {
             createEditButtonOnNavigationBar()
         }
         
+        tableView.delegate = self
+        tableView.dataSource = self
+        let nib = UINib(nibName: "CommentTableViewCell", bundle: nil)
+        tableView.register(nib, forCellReuseIdentifier: "CommentCell")
+        
         // For placeholder
         commentText.text = "Comment..."
         commentText.textColor = UIColor.lightGray
@@ -97,7 +102,6 @@ class MovieDetailsViewController: UIViewController, UITextViewDelegate {
                     self.commentsArr.append(comment.data())
                 }
                 
-                print(self.commentsArr)
                 self.tableView?.reloadData()
             }
             
@@ -108,9 +112,7 @@ class MovieDetailsViewController: UIViewController, UITextViewDelegate {
     @IBAction func commentBtnPressed(_ sender: Any) {
         let movieCommentsRef = Firestore.firestore().collection(Constants.Firestore.moviesCollection).document(self.movieDocumentId).collection("comments").document()
         
-        print(self.movieDocumentId)
-        
-        let movieComment = ["comment": self.commentText.text!, "createdAt": Date(), "userId": currentUser["uid"] ]
+        let movieComment = ["comment": self.commentText.text!, "createdAt": Date(), "userId": currentUser["user_uid"] ]
         
         movieCommentsRef.setData(movieComment as [String : Any]) { (err) in
             if err != nil {
@@ -154,35 +156,49 @@ class MovieDetailsViewController: UIViewController, UITextViewDelegate {
  
  extension MovieDetailsViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        print("test1")
         return 1
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print("test2")
         return commentsArr.count
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100.0
+    }
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        print("test3")
-        
+
         let cell = tableView.dequeueReusableCell(withIdentifier: "CommentCell", for: indexPath)
             as! CommentTableViewCell
         let cellIndex = indexPath.row
         
         cell.commentText.text = commentsArr[cellIndex]["comment"] as? String
         
+        let createdAt = commentsArr[cellIndex]["createdAt"] as! Timestamp
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm" //Specify your format that you want
+        let strDate = dateFormatter.string(from: createdAt.dateValue())
+
+        cell.createdAt.text = strDate
+        cell.createdAt.textAlignment = .right
+        
         db.collection(Constants.Firestore.usersCollection).whereField("user_uid", isEqualTo: commentsArr[cellIndex]["userId"]!).getDocuments(){ (querySnapshot, err) in
+//            print(querySnapshot!.documents.first?.data())
+            let user = querySnapshot!.documents.first?.data()
             
-            let user = querySnapshot!.documents.first!.data()
-                
-            
+            if((user) != nil) {
+                cell.username.text = (user?["first_name"] as! String) + " " + (user?["last_name"] as! String)
+            } else {
+                cell.username.text = "Unknown"
+            }
+
         }
-        
-        
+
+
         return cell
     }
-    
+
 }
 
