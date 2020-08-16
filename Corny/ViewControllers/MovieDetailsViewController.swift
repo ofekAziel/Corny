@@ -110,7 +110,7 @@ class MovieDetailsViewController: UIViewController, UITextViewDelegate {
         
         print(self.movieDocumentId)
         
-        let movieComment = ["comment": self.commentText.text!, "createdAt": Date(), "userId": currentUser["uid"] ]
+        let movieComment = ["comment": self.commentText.text!, "createdAt": Date(), "userId": currentUser["user_uid"] ]
         
         movieCommentsRef.setData(movieComment as [String : Any]) { (err) in
             if err != nil {
@@ -175,7 +175,7 @@ class MovieDetailsViewController: UIViewController, UITextViewDelegate {
         
         db.collection(Constants.Firestore.usersCollection).whereField("user_uid", isEqualTo: commentsArr[cellIndex]["userId"]!).getDocuments(){ (querySnapshot, err) in
             
-            let user = querySnapshot!.documents.first!.data()
+            _ = querySnapshot!.documents.first!.data()
                 
             
         }
