@@ -111,6 +111,7 @@ class MovieDetailsViewController: UIViewController, UITextViewDelegate {
     
     @IBAction func commentBtnPressed(_ sender: Any) {
         let movieCommentsRef = Firestore.firestore().collection(Constants.Firestore.moviesCollection).document(self.movieDocumentId).collection("comments").document()
+                
         
         let movieComment = ["comment": self.commentText.text!, "createdAt": Date(), "userId": currentUser["user_uid"] ]
         
@@ -157,7 +158,7 @@ class MovieDetailsViewController: UIViewController, UITextViewDelegate {
  extension MovieDetailsViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
-    }
+
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return commentsArr.count
@@ -184,8 +185,6 @@ class MovieDetailsViewController: UIViewController, UITextViewDelegate {
         cell.createdAt.text = strDate
         cell.createdAt.textAlignment = .right
         
-        db.collection(Constants.Firestore.usersCollection).whereField("user_uid", isEqualTo: commentsArr[cellIndex]["userId"]!).getDocuments(){ (querySnapshot, err) in
-//            print(querySnapshot!.documents.first?.data())
             let user = querySnapshot!.documents.first?.data()
             
             if((user) != nil) {
@@ -193,6 +192,7 @@ class MovieDetailsViewController: UIViewController, UITextViewDelegate {
             } else {
                 cell.username.text = "Unknown"
             }
+
 
         }
 
