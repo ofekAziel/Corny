@@ -158,6 +158,7 @@ class MovieDetailsViewController: UIViewController, UITextViewDelegate {
  extension MovieDetailsViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
+    }
 
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -184,6 +185,8 @@ class MovieDetailsViewController: UIViewController, UITextViewDelegate {
 
         cell.createdAt.text = strDate
         cell.createdAt.textAlignment = .right
+        
+        db.collection(Constants.Firestore.usersCollection).whereField("user_uid", isEqualTo: commentsArr[cellIndex]["userId"]!).getDocuments(){ (querySnapshot, err) in
         
             let user = querySnapshot!.documents.first?.data()
             
