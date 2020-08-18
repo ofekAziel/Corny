@@ -31,7 +31,8 @@
 		A0DDBE9624EBED4A0044A217 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0DDBE9524EBED4A0044A217 /* Comment.swift */; };
 		A0DDBE9824EBF0410044A217 /* FirebaseStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0DDBE9724EBF0410044A217 /* FirebaseStorage.swift */; };
 		A0DDBE9A24EBF1E60044A217 /* MovieFirebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0DDBE9924EBF1E60044A217 /* MovieFirebase.swift */; };
-		A0DDBE9C24EBFB870044A217 /* UserFirebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0DDBE9B24EBFB870044A217 /* UserFirebase.swift */; };
+		A0DDBE9E24EBFF3C0044A217 /* DBHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0DDBE9D24EBFF3C0044A217 /* DBHelper.swift */; };
+		A0DDBEA024EC03840044A217 /* MovieDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0DDBE9F24EC03840044A217 /* MovieDB.swift */; };
 		A0F7A83723D09CAB00FF3428 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F7A83523D09CAB00FF3428 /* Constants.swift */; };
 		A0F7A83823D09CAB00FF3428 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F7A83623D09CAB00FF3428 /* Utilities.swift */; };
 		C27EC402A93C34B43F036F1A /* Pods_Corny.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 864C3D4E5E5A00AE53CF1C92 /* Pods_Corny.framework */; };
@@ -66,7 +67,8 @@
 		A0DDBE9524EBED4A0044A217 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		A0DDBE9724EBF0410044A217 /* FirebaseStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseStorage.swift; sourceTree = "<group>"; };
 		A0DDBE9924EBF1E60044A217 /* MovieFirebase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieFirebase.swift; sourceTree = "<group>"; };
-		A0DDBE9B24EBFB870044A217 /* UserFirebase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFirebase.swift; sourceTree = "<group>"; };
+		A0DDBE9D24EBFF3C0044A217 /* DBHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBHelper.swift; sourceTree = "<group>"; };
+		A0DDBE9F24EC03840044A217 /* MovieDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDB.swift; sourceTree = "<group>"; };
 		A0F7A83523D09CAB00FF3428 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		A0F7A83623D09CAB00FF3428 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		BA24C52458231CE6B7C7876A /* Pods-Corny.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Corny.debug.xcconfig"; path = "Target Support Files/Pods-Corny/Pods-Corny.debug.xcconfig"; sourceTree = "<group>"; };
@@ -157,12 +159,13 @@
 		A0DDBE9024EBCD370044A217 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				A0DDBE9D24EBFF3C0044A217 /* DBHelper.swift */,
+				A0DDBE9F24EC03840044A217 /* MovieDB.swift */,
 				A0DDBE9124EBCD6B0044A217 /* Movie.swift */,
 				A0DDBE9324EBD8620044A217 /* User.swift */,
 				A0DDBE9524EBED4A0044A217 /* Comment.swift */,
 				A0DDBE9724EBF0410044A217 /* FirebaseStorage.swift */,
 				A0DDBE9924EBF1E60044A217 /* MovieFirebase.swift */,
-				A0DDBE9B24EBFB870044A217 /* UserFirebase.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -326,12 +329,13 @@
 				7E2699FF240C582E00FBF52E /* MovieDetailsViewController.swift in Sources */,
 				A045039E23CF0BFD00156DE0 /* SceneDelegate.swift in Sources */,
 				A0DDBE9A24EBF1E60044A217 /* MovieFirebase.swift in Sources */,
-				A0DDBE9C24EBFB870044A217 /* UserFirebase.swift in Sources */,
 				7E12617C24E4815900E51F4E /* CommentTableViewCell.swift in Sources */,
 				A0DDBE9624EBED4A0044A217 /* Comment.swift in Sources */,
+				A0DDBE9E24EBFF3C0044A217 /* DBHelper.swift in Sources */,
 				A09C4C0123D5E4BA00BFFB45 /* EditMovieViewController.swift in Sources */,
 				7E9B0A6A2406EFF8002A5A12 /* MovieCollectionViewCell.swift in Sources */,
 				A0F7A83823D09CAB00FF3428 /* Utilities.swift in Sources */,
+				A0DDBEA024EC03840044A217 /* MovieDB.swift in Sources */,
 				A03F0F6E23D08DF000508747 /* MoviesViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

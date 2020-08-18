@@ -27,4 +27,14 @@ class Movie {
         self.description = json["description"] as! String
         self.imageUrl = json["image_url"] as! String
     }
+    
+    init(id: String, name: String, genre: String, actors: String, director: String, description: String, imageUrl: String) {
+        self.id = id
+        self.name = name
+        self.genre = genre
+        self.actors = actors
+        self.director = director
+        self.description = description
+        self.imageUrl = imageUrl
+    }
 }
