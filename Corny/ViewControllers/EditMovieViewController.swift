@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import FirebaseFirestore
 import FirebaseStorage
 
 class EditMovieViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
@@ -69,89 +68,21 @@ class EditMovieViewController: UIViewController, UIImagePickerControllerDelegate
         if validateFields() != nil {
             showAlert(alertText: "Can't save movie please fill in all fields.")
         } else {
-            uploadPhotoAndMovieToFirestore()
+            FirebaseStorage.uploadPhotoAndMovieToFirestore(
+                view: self.view, movieImage: movieImageView.image, movie: movie, isAddMovie: isAddMovie,
+                name: movieNameTextField.text!, genre: genreTextField.text!, actors: actorsTextField.text!,
+                director: directorTextField.text!, description: descriptionTextView.text!, editMovieViewController: self)
         }
     }
     
     @IBAction func deleteMovie(_ sender: UIButton) {
-        Utilities.makeSpinner(view: self.view)
-        deleteMoviePhoto()
-        Firestore.firestore().collection(Constants.Firestore.moviesCollection).document(movie.id).delete() { err in
-            if err != nil {
-                self.showAlert(alertText: "Can't remove movie")
-            } else {
-                Utilities.removeSpinner()
-                self.navigationController?.popToRootViewController(animated: true)
-            }
-        }
+        MovieFirebase.deleteMovie(editMovieViewController: self, view: self.view, movie: movie, movieImage: movieImage)
     }
-    
-    func deleteMoviePhoto() {
-        movieImage.delete { error in
-            if error != nil {
-                self.showAlert(alertText: "Cannot delete movie image")
-            }
-        }
-    }
-    
+        
     func showAlert(alertText:String) {
         let alert = UIAlertController(title: "Error", message: alertText, preferredStyle: UIAlertController.Style.alert)
         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.destructive, handler: nil))
         self.present(alert, animated: true, completion: nil)
-    }
-    
-    func saveMovieToDatabase(imageUrl: String) {
-        let moviesRef: DocumentReference
-        
-        if isAddMovie {
-            moviesRef = Firestore.firestore().collection(Constants.Firestore.moviesCollection).document()
-        }
-        else {
-            moviesRef = Firestore.firestore().collection(Constants.Firestore.moviesCollection).document(movie.id)
-        }
-        
-        let movieData = ["name":movieNameTextField.text!, "genre":genreTextField.text!, "actors":actorsTextField.text!, "director":directorTextField.text!, "description":descriptionTextView.text!, "image_url":imageUrl]
-        
-        moviesRef.setData(movieData) { (err) in
-            if err != nil {
-                self.showAlert(alertText: "Can't save movie data.")
-            } else {
-                Utilities.removeSpinner()
-                self.navigationController?.popToRootViewController(animated: true)
-            }
-        }
-    }
-    
-    func uploadPhotoAndMovieToFirestore() {
-        Utilities.makeSpinner(view: self.view)
-        guard let image = movieImageView.image, let data = image.jpegData(compressionQuality: 1.0) else {
-            showAlert(alertText: "Something went wrong...")
-            return
-        }
-        
-        let imageName = UUID().uuidString
-        let imageRef = Storage.storage().reference().child(Constants.Storgae.imagesFolder).child(imageName)
-        
-        imageRef.putData(data, metadata: nil) { (metadata, err) in
-            if err != nil {
-                self.showAlert(alertText: "Can't upload photo to storage.")
-                return
-            }
-            
-            imageRef.downloadURL { (url, err) in
-                if err != nil {
-                    self.showAlert(alertText: "Something went wrong...")
-                    return
-                }
-                
-                guard let url = url else {
-                    self.showAlert(alertText: "Something went wrong...")
-                    return
-                }
-                
-                self.saveMovieToDatabase(imageUrl: url.absoluteString)
-            }
-        }
     }
     
     func validateFields() -> String? {
