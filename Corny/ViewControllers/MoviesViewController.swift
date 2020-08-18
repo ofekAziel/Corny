@@ -13,15 +13,6 @@ import FirebaseStorage
 import FirebaseUI
 import FirebaseAuth
 
-struct movie {
-    var actors: String
-    var description: String
-    var director: String
-    var genre: String
-    var imageUID: String
-    var name: String
-}
-
 class MoviesViewController: UIViewController {
     
     @IBOutlet weak var collectionView : UICollectionView!
@@ -29,7 +20,7 @@ class MoviesViewController: UIViewController {
     var db: Firestore!
     var storageRef: StorageReference!
     var storage: Storage!
-    var moviesArr: [[String : Any]] = []
+    var movies: [Movie] = []
     var currentUser: [String: Any] = [:]
     var collectionViewFlowLayout: UICollectionViewFlowLayout!
     
@@ -79,12 +70,12 @@ class MoviesViewController: UIViewController {
         let collectionRef = db.collection("movies")
         
         collectionRef.addSnapshotListener { (querySnapshot, err) in
-            self.moviesArr = [];
+            self.movies = [];
             if let movies = querySnapshot?.documents {
                 for movie in movies {
                     data = movie.data()
                     data.updateValue(movie.documentID, forKey: "documentId")
-                    self.moviesArr.append(data)
+                    self.movies.append(Movie(json: data))
                 }
                 
                 self.collectionView?.reloadData()
@@ -130,7 +121,7 @@ extension MoviesViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return moviesArr.count
+        return movies.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -151,11 +142,11 @@ extension MoviesViewController: UICollectionViewDelegate, UICollectionViewDataSo
         let radius = cell.contentView.layer.cornerRadius
         cell.layer.shadowPath = UIBezierPath(roundedRect: cell.bounds, cornerRadius: radius).cgPath
         
-        cell.movieName.text = moviesArr[cellIndex]["name"] as? String
-        cell.movieGenre.text = moviesArr[cellIndex]["genre"] as? String
+        cell.movieName.text = movies[cellIndex].name
+        cell.movieGenre.text = movies[cellIndex].genre
         
         // Get image url and set it to imageView
-        let url = moviesArr[cellIndex]["image_url"] as! String
+        let url = movies[cellIndex].imageUrl
         let imageRef = self.storage.reference(forURL: url)
         cell.movieImage.sd_setImage(with: imageRef, placeholderImage: UIImage(named: "defaultMovie.jpg"))
         
@@ -165,16 +156,11 @@ extension MoviesViewController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let vc = storyboard?.instantiateViewController(identifier: "MovieDetailsViewController") as? MovieDetailsViewController
         
-        vc?.movieDocumentId = moviesArr[indexPath.row]["documentId"] as! String
-        vc?.movieName = moviesArr[indexPath.row]["name"] as! String
-        vc?.movieGenre = moviesArr[indexPath.row]["genre"] as! String
-        vc?.movieActors = moviesArr[indexPath.row]["actors"] as! String
-        vc?.movieDirector = moviesArr[indexPath.row]["director"] as! String
-        vc?.desc = moviesArr[indexPath.row]["description"] as! String
+        vc?.movie = movies[indexPath.row]
         vc?.currentUser = currentUser
         
         // Get image url and set it to imageView
-        let url = moviesArr[indexPath.row]["image_url"] as! String
+        let url = movies[indexPath.row].imageUrl
         let imageRef = self.storage.reference(forURL: url)
         vc?.movieImage = imageRef
         self.navigationController?.pushViewController(vc!, animated: true)

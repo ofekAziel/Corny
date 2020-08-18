@@ -22,13 +22,8 @@ class MovieDetailsViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var commentText: UITextView!
     @IBOutlet weak var commentBtn: UIButton!
     
-    var movieDocumentId = ""
+    var movie: Movie!
     var movieImage: StorageReference!
-    var movieName = ""
-    var movieGenre = ""
-    var movieActors = ""
-    var movieDirector = ""
-    var desc = ""
     var currentUser: [String: Any] = [:]
     
     var db: Firestore!
@@ -39,11 +34,11 @@ class MovieDetailsViewController: UIViewController, UITextViewDelegate {
         db = Firestore.firestore()
         
         image.sd_setImage(with: movieImage, placeholderImage: UIImage(named: "defaultMovie.jpg"))
-        name.text = movieName
-        genre.text = movieGenre
-        actors.text = movieActors
-        directors.text = movieDirector
-        movieDesc.text = desc
+        name.text = movie.name
+        genre.text = movie.genre
+        actors.text = movie.actors
+        directors.text = movie.director
+        movieDesc.text = movie.description
         if (currentUser["is_admin"] as! Bool) {
             createEditButtonOnNavigationBar()
         }
@@ -93,7 +88,7 @@ class MovieDetailsViewController: UIViewController, UITextViewDelegate {
     }
     
     private func getComments() {
-        let collectionRef = db.collection(Constants.Firestore.moviesCollection).document(movieDocumentId).collection("comments")
+        let collectionRef = db.collection(Constants.Firestore.moviesCollection).document(movie.id).collection("comments")
         
         collectionRef.addSnapshotListener { (querySnapshot, err) in
             self.commentsArr = []
@@ -110,7 +105,7 @@ class MovieDetailsViewController: UIViewController, UITextViewDelegate {
     
     
     @IBAction func commentBtnPressed(_ sender: Any) {
-        let movieCommentsRef = Firestore.firestore().collection(Constants.Firestore.moviesCollection).document(self.movieDocumentId).collection("comments").document()
+        let movieCommentsRef = Firestore.firestore().collection(Constants.Firestore.moviesCollection).document(movie.id).collection("comments").document()
                 
         
         let movieComment = ["comment": self.commentText.text!, "createdAt": Date(), "userId": currentUser["user_uid"] ]
@@ -144,14 +139,9 @@ class MovieDetailsViewController: UIViewController, UITextViewDelegate {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let destinationVC = segue.destination as! EditMovieViewController
-        destinationVC.documentId = movieDocumentId
+        destinationVC.movie = movie
         destinationVC.isAddMovie = false
         destinationVC.movieImage = movieImage
-        destinationVC.movieName = movieName
-        destinationVC.genre = movieGenre
-        destinationVC.actors = movieActors
-        destinationVC.director = movieDirector
-        destinationVC.movieDescription = desc
     }
  }
  

@@ -23,12 +23,7 @@ class EditMovieViewController: UIViewController, UIImagePickerControllerDelegate
     
     var isAddMovie = false
     var movieImage: StorageReference!
-    var documentId = ""
-    var movieName = ""
-    var genre = ""
-    var actors = ""
-    var director = ""
-    var movieDescription = ""
+    var movie: Movie!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,11 +53,11 @@ class EditMovieViewController: UIViewController, UIImagePickerControllerDelegate
         Utilities.styleFilledButton(deleteButton)
         self.navigationItem.title = "Edit Movie"
         movieImageView.sd_setImage(with: movieImage, placeholderImage: UIImage(named: "defaultMovie.jpg"))
-        movieNameTextField.text = movieName
-        genreTextField.text = genre
-        actorsTextField.text = actors
-        directorTextField.text = director
-        descriptionTextView.text = movieDescription
+        movieNameTextField.text = movie.name
+        genreTextField.text = movie.genre
+        actorsTextField.text = movie.actors
+        directorTextField.text = movie.director
+        descriptionTextView.text = movie.description
     }
     
     func createSaveButtonOnNavigationBar() {
@@ -81,7 +76,7 @@ class EditMovieViewController: UIViewController, UIImagePickerControllerDelegate
     @IBAction func deleteMovie(_ sender: UIButton) {
         Utilities.makeSpinner(view: self.view)
         deleteMoviePhoto()
-        Firestore.firestore().collection(Constants.Firestore.moviesCollection).document(documentId).delete() { err in
+        Firestore.firestore().collection(Constants.Firestore.moviesCollection).document(movie.id).delete() { err in
             if err != nil {
                 self.showAlert(alertText: "Can't remove movie")
             } else {
@@ -112,7 +107,7 @@ class EditMovieViewController: UIViewController, UIImagePickerControllerDelegate
             moviesRef = Firestore.firestore().collection(Constants.Firestore.moviesCollection).document()
         }
         else {
-            moviesRef = Firestore.firestore().collection(Constants.Firestore.moviesCollection).document(documentId)
+            moviesRef = Firestore.firestore().collection(Constants.Firestore.moviesCollection).document(movie.id)
         }
         
         let movieData = ["name":movieNameTextField.text!, "genre":genreTextField.text!, "actors":actorsTextField.text!, "director":directorTextField.text!, "description":descriptionTextView.text!, "image_url":imageUrl]
