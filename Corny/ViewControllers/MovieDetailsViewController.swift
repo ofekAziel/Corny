@@ -24,7 +24,7 @@ class MovieDetailsViewController: UIViewController, UITextViewDelegate {
     
     var movie: Movie!
     var movieImage: StorageReference!
-    var currentUser: [String: Any] = [:]
+    var currentUser: User!
     
     var db: Firestore!
     var commentsArr: [[String : Any]] = []
@@ -39,7 +39,8 @@ class MovieDetailsViewController: UIViewController, UITextViewDelegate {
         actors.text = movie.actors
         directors.text = movie.director
         movieDesc.text = movie.description
-        if (currentUser["is_admin"] as! Bool) {
+        
+        if (currentUser.isAdmin) {
             createEditButtonOnNavigationBar()
         }
         
@@ -108,7 +109,7 @@ class MovieDetailsViewController: UIViewController, UITextViewDelegate {
         let movieCommentsRef = Firestore.firestore().collection(Constants.Firestore.moviesCollection).document(movie.id).collection("comments").document()
                 
         
-        let movieComment = ["comment": self.commentText.text!, "createdAt": Date(), "userId": currentUser["user_uid"] ]
+        let movieComment = ["comment": self.commentText.text!, "createdAt": Date(), "userId": currentUser.userUid] as [String : Any]
         
         movieCommentsRef.setData(movieComment as [String : Any]) { (err) in
             if err != nil {

@@ -21,7 +21,7 @@ class MoviesViewController: UIViewController {
     var storageRef: StorageReference!
     var storage: Storage!
     var movies: [Movie] = []
-    var currentUser: [String: Any] = [:]
+    var currentUser: User!
     var collectionViewFlowLayout: UICollectionViewFlowLayout!
     
     override func viewDidLoad() {
@@ -46,13 +46,18 @@ class MoviesViewController: UIViewController {
     
     private func getCurrentUser() {
         let currentUserUid = Auth.auth().currentUser!.uid
+        var data: [String: Any] = [:]
+        
         db.collection(Constants.Firestore.usersCollection).whereField("user_uid", isEqualTo: currentUserUid).getDocuments() { (querySnapshot, err) in
             if let err = err {
                 self.showAlert(alertText: err.localizedDescription)
             } else {
-                self.currentUser = querySnapshot!.documents.first!.data()
+                data = querySnapshot!.documents.first!.data()
+                data.updateValue(querySnapshot!.documents.first!.documentID, forKey: "documentId")
                 Utilities.removeSpinner()
-                if (self.currentUser["is_admin"] as! Bool) {
+                self.currentUser = User(json: data)
+                
+                if (self.currentUser.isAdmin) {
                     self.createAddButtonOnNavigationBar()
                 }
             }
