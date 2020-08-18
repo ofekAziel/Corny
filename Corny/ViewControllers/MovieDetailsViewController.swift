@@ -25,9 +25,9 @@ class MovieDetailsViewController: UIViewController, UITextViewDelegate {
     var movie: Movie!
     var movieImage: StorageReference!
     var currentUser: User!
-    
+    var comments: [Comment] = []
     var db: Firestore!
-    var commentsArr: [[String : Any]] = []
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -92,10 +92,13 @@ class MovieDetailsViewController: UIViewController, UITextViewDelegate {
         let collectionRef = db.collection(Constants.Firestore.moviesCollection).document(movie.id).collection("comments")
         
         collectionRef.addSnapshotListener { (querySnapshot, err) in
-            self.commentsArr = []
+            var data: [String: Any] = [:]
+            self.comments = []
             if let comments = querySnapshot?.documents {
                 for comment in comments {
-                    self.commentsArr.append(comment.data())
+                    data = comment.data()
+                    data.updateValue(comment.documentID, forKey: "documentId")
+                    self.comments.append(Comment(json: data))
                 }
                 
                 self.tableView?.reloadData()
@@ -153,7 +156,7 @@ class MovieDetailsViewController: UIViewController, UITextViewDelegate {
 
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return commentsArr.count
+        return comments.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -166,9 +169,8 @@ class MovieDetailsViewController: UIViewController, UITextViewDelegate {
             as! CommentTableViewCell
         let cellIndex = indexPath.row
         
-        cell.commentText.text = commentsArr[cellIndex]["comment"] as? String
-        
-        let createdAt = commentsArr[cellIndex]["createdAt"] as! Timestamp
+        cell.commentText.text = comments[cellIndex].comment
+        let createdAt = comments[cellIndex].createdAt
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm" //Specify your format that you want
@@ -177,7 +179,7 @@ class MovieDetailsViewController: UIViewController, UITextViewDelegate {
         cell.createdAt.text = strDate
         cell.createdAt.textAlignment = .right
         
-        db.collection(Constants.Firestore.usersCollection).whereField("user_uid", isEqualTo: commentsArr[cellIndex]["userId"]!).getDocuments(){ (querySnapshot, err) in
+        db.collection(Constants.Firestore.usersCollection).whereField("user_uid", isEqualTo: comments[cellIndex].userId).getDocuments(){ (querySnapshot, err) in
         
             let user = querySnapshot!.documents.first?.data()
             
