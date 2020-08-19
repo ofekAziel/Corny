@@ -20,7 +20,7 @@ class MovieDB {
         }
     }
     
-    static func addMovieToDb(movie: Movie, database: OpaquePointer?) {
+    static func addOrUpdateMovieToDb(movie: Movie, database: OpaquePointer?) {
         var sqlite3_stmt: OpaquePointer? = nil
         if (sqlite3_prepare_v2(database, "INSERT OR REPLACE INTO MOVIES (ID, NAME, ACTORS, DESCRIPTION, DIRECTOR, GENRE, IMAGE_URL) VALUES (?,?,?,?,?,?,?);", -1, &sqlite3_stmt,nil) == SQLITE_OK) {
             let id = movie.id.cString(using: .utf8)
@@ -44,6 +44,27 @@ class MovieDB {
         }
         
         sqlite3_finalize(sqlite3_stmt)
+    }
+    
+    static func deleteMovieFromDb(movieId: String, databse: OpaquePointer?) {
+            let deleteStatementString = "DELETE FROM MOVIES WHERE id = ?;"
+
+            var deleteStatement: OpaquePointer? = nil
+            if sqlite3_prepare_v2(databse, deleteStatementString, -1, &deleteStatement, nil) == SQLITE_OK {
+                
+                sqlite3_bind_text(deleteStatement, 1, movieId, -1, nil)
+
+                if sqlite3_step(deleteStatement) == SQLITE_DONE {
+                    print("Successfully deleted row.")
+                } else {
+                    print("Could not delete row.")
+                }
+            } else {
+                print("DELETE statement could not be prepared")
+            }
+
+            sqlite3_finalize(deleteStatement)
+            print("deleted movie")
     }
     
     static func getAllMoviesFromDb(database: OpaquePointer?) -> [Movie] {
