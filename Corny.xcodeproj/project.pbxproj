@@ -12,6 +12,7 @@
 		7E2699FF240C582E00FBF52E /* MovieDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2699FE240C582E00FBF52E /* MovieDetailsViewController.swift */; };
 		7E9B0A6A2406EFF8002A5A12 /* MovieCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E9B0A682406EFF8002A5A12 /* MovieCollectionViewCell.swift */; };
 		7E9B0A6B2406EFF8002A5A12 /* MovieCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E9B0A692406EFF8002A5A12 /* MovieCollectionViewCell.xib */; };
+		A023FD0124ED7C5D00411F69 /* UserDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = A023FD0024ED7C5D00411F69 /* UserDB.swift */; };
 		A03F0F6A23D08DCE00508747 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A03F0F6923D08DCE00508747 /* SignUpViewController.swift */; };
 		A03F0F6C23D08DE000508747 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A03F0F6B23D08DE000508747 /* LoginViewController.swift */; };
 		A03F0F6E23D08DF000508747 /* MoviesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A03F0F6D23D08DF000508747 /* MoviesViewController.swift */; };
@@ -46,6 +47,7 @@
 		7E9B0A682406EFF8002A5A12 /* MovieCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCollectionViewCell.swift; sourceTree = "<group>"; };
 		7E9B0A692406EFF8002A5A12 /* MovieCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MovieCollectionViewCell.xib; sourceTree = "<group>"; };
 		864C3D4E5E5A00AE53CF1C92 /* Pods_Corny.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Corny.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A023FD0024ED7C5D00411F69 /* UserDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDB.swift; sourceTree = "<group>"; };
 		A03F0F6923D08DCE00508747 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		A03F0F6B23D08DE000508747 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		A03F0F6D23D08DF000508747 /* MoviesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesViewController.swift; sourceTree = "<group>"; };
@@ -161,6 +163,7 @@
 			children = (
 				A0DDBE9D24EBFF3C0044A217 /* DBHelper.swift */,
 				A0DDBE9F24EC03840044A217 /* MovieDB.swift */,
+				A023FD0024ED7C5D00411F69 /* UserDB.swift */,
 				A0DDBE9124EBCD6B0044A217 /* Movie.swift */,
 				A0DDBE9324EBD8620044A217 /* User.swift */,
 				A0DDBE9524EBED4A0044A217 /* Comment.swift */,
@@ -334,6 +337,7 @@
 				A0DDBE9E24EBFF3C0044A217 /* DBHelper.swift in Sources */,
 				A09C4C0123D5E4BA00BFFB45 /* EditMovieViewController.swift in Sources */,
 				7E9B0A6A2406EFF8002A5A12 /* MovieCollectionViewCell.swift in Sources */,
+				A023FD0124ED7C5D00411F69 /* UserDB.swift in Sources */,
 				A0F7A83823D09CAB00FF3428 /* Utilities.swift in Sources */,
 				A0DDBEA024EC03840044A217 /* MovieDB.swift in Sources */,
 				A03F0F6E23D08DF000508747 /* MoviesViewController.swift in Sources */,

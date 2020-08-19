@@ -101,8 +101,8 @@ class MovieDetailsViewController: UIViewController, UITextViewDelegate {
                     self.comments.append(Comment(json: data))
                 }
                 
-                self.commentsArr.sort(by: { lhs, rhs in
-                    return (lhs["createdAt"] as! Timestamp).dateValue() > (rhs["createdAt"] as! Timestamp).dateValue()
+                self.comments.sort(by: { lhs, rhs in
+                    return (lhs.createdAt).dateValue() > (rhs.createdAt).dateValue()
                 })
                 
                 self.tableView?.reloadData()

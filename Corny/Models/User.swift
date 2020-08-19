@@ -10,7 +10,7 @@ import Foundation
 
 class User {
     
-    let id:String
+    let id: String
     var firstName: String
     var lastName: String
     var isAdmin: Bool
@@ -22,5 +22,13 @@ class User {
         self.lastName = json["last_name"] as! String
         self.isAdmin = json["is_admin"] as! Bool
         self.userUid = json["user_uid"] as! String
+    }
+    
+    init(id: String, firstName: String, lastName: String, isAdmin: Bool, userUid: String) {
+        self.id = id
+        self.firstName = firstName
+        self.lastName = lastName
+        self.isAdmin = isAdmin
+        self.userUid = userUid
     }
 }

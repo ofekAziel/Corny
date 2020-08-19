@@ -38,7 +38,7 @@ class MovieDB {
             sqlite3_bind_text(sqlite3_stmt, 5, director, -1, nil);
             sqlite3_bind_text(sqlite3_stmt, 6, genre, -1, nil);
             sqlite3_bind_text(sqlite3_stmt, 7, imageUrl, -1, nil);
-            if(sqlite3_step(sqlite3_stmt) == SQLITE_DONE){
+            if(sqlite3_step(sqlite3_stmt) == SQLITE_DONE) {
                 print("new row added succefully")
             }
         }
@@ -72,7 +72,7 @@ class MovieDB {
         var data: [Movie] = []
 
         if (sqlite3_prepare_v2(database, "SELECT * from MOVIES;", -1, &sqlite3_stmt, nil)
-            == SQLITE_OK){
+            == SQLITE_OK) {
             while(sqlite3_step(sqlite3_stmt) == SQLITE_ROW) {
                 let id = String(cString:sqlite3_column_text(sqlite3_stmt,0)!)
                 let name = String(cString:sqlite3_column_text(sqlite3_stmt,1)!)
