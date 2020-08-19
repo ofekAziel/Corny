@@ -173,6 +173,33 @@ class MovieDetailsViewController: UIViewController, UITextViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100.0
     }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath)
+    {
+        if editingStyle == .delete {
+            let commentToRemove = commentsArr[indexPath.row]
+        Firestore.firestore().collection(Constants.Firestore.moviesCollection).document(self.movieDocumentId).collection("comments")
+            .whereField("createdAt", isEqualTo: commentToRemove["createdAt"])
+            .whereField("userId", isEqualTo: currentUser["user_uid"])
+            .getDocuments(){ (querySnapshot, err) in
+                let commentRef = querySnapshot!.documents.first?.reference
+                if commentRef != nil {
+                commentRef?.delete() { err in
+                    if err != nil {
+                        self.showAlert(alertText: "Can't remove comment")
+                    } else {
+                    self.commentsArr.remove(at: indexPath.row)
+                    tableView.deleteRows(at: [indexPath], with: .fade)
+                    }
+                }
+                } else {
+                  self.showAlert(alertText: "Comment not yours")
+                }
+            }
+        } else if editingStyle == .insert {
+            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
+        }
+    }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
