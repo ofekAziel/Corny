@@ -101,6 +101,10 @@ class MovieDetailsViewController: UIViewController, UITextViewDelegate {
                     self.comments.append(Comment(json: data))
                 }
                 
+                self.commentsArr.sort(by: { lhs, rhs in
+                    return (lhs["createdAt"] as! Timestamp).dateValue() > (rhs["createdAt"] as! Timestamp).dateValue()
+                })
+                
                 self.tableView?.reloadData()
             }
             
@@ -120,6 +124,7 @@ class MovieDetailsViewController: UIViewController, UITextViewDelegate {
             } else {
                 self.commentText.text = "Comment..."
                 self.commentText.textColor = UIColor.lightGray
+                self.commentText.resignFirstResponder()
             }
             
         }
