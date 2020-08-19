@@ -28,7 +28,6 @@ class MovieDetailsViewController: UIViewController, UITextViewDelegate {
     var comments: [Comment] = []
     var db: Firestore!
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         db = Firestore.firestore()
@@ -171,10 +170,10 @@ class MovieDetailsViewController: UIViewController, UITextViewDelegate {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath)
     {
         if editingStyle == .delete {
-            let commentToRemove = commentsArr[indexPath.row]
-        Firestore.firestore().collection(Constants.Firestore.moviesCollection).document(self.movieDocumentId).collection("comments")
-            .whereField("createdAt", isEqualTo: commentToRemove["createdAt"])
-            .whereField("userId", isEqualTo: currentUser["user_uid"])
+            let commentToRemove = comments[indexPath.row]
+            Firestore.firestore().collection(Constants.Firestore.moviesCollection).document(movie.id).collection("comments")
+            .whereField("createdAt", isEqualTo: commentToRemove.createdAt)
+            .whereField("userId", isEqualTo: currentUser.userUid)
             .getDocuments(){ (querySnapshot, err) in
                 let commentRef = querySnapshot!.documents.first?.reference
                 if commentRef != nil {
@@ -182,7 +181,7 @@ class MovieDetailsViewController: UIViewController, UITextViewDelegate {
                     if err != nil {
                         self.showAlert(alertText: "Can't remove comment")
                     } else {
-                    self.commentsArr.remove(at: indexPath.row)
+                    self.comments.remove(at: indexPath.row)
                     tableView.deleteRows(at: [indexPath], with: .fade)
                     }
                 }
