@@ -76,6 +76,7 @@ class EditMovieViewController: UIViewController, UIImagePickerControllerDelegate
     }
     
     @IBAction func deleteMovie(_ sender: UIButton) {
+        MovieDB.deleteMovieFromDb(movieId: movie.id, databse: DBHelper.instance.db)
         MovieFirebase.deleteMovie(editMovieViewController: self, view: self.view, movie: movie, movieImage: movieImage)
     }
         

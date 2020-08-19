@@ -30,6 +30,7 @@ class MoviesViewController: UIViewController {
         storage = Storage.storage()
         storageRef = storage.reference()
         
+//        MovieDB.deleteAllMovies(database: DBHelper.instance.db) USE JUST IF YOU WANT TO CLEAR ALL ROWS
         Utilities.makeSpinner(view: self.view)
         self.getData()
         collectionView.delegate = self

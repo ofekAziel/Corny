@@ -89,4 +89,10 @@ class MovieDB {
         sqlite3_finalize(sqlite3_stmt)
         return data
     }
+    
+    static func deleteAllMovies(database: OpaquePointer?) {
+        var sqlite3_stmt: OpaquePointer? = nil
+        sqlite3_prepare_v2(database, "DELETE from MOVIES;", -1, &sqlite3_stmt, nil)
+        sqlite3_step(sqlite3_stmt)
+    }
 }
