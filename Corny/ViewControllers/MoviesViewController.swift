@@ -74,15 +74,17 @@ class MoviesViewController: UIViewController {
         var data: [String: Any] = [:]
         let collectionRef = db.collection("movies")
         
+        self.movies = MovieDB.getAllMoviesFromDb(database: DBHelper.instance.db)
+        
         collectionRef.addSnapshotListener { (querySnapshot, err) in
-            self.movies = [];
             if let movies = querySnapshot?.documents {
                 for movie in movies {
                     data = movie.data()
                     data.updateValue(movie.documentID, forKey: "documentId")
-                    self.movies.append(Movie(json: data))
+                    MovieDB.addOrUpdateMovieToDb(movie: Movie(json: data), database: DBHelper.instance.db)
                 }
                 
+                self.movies = MovieDB.getAllMoviesFromDb(database: DBHelper.instance.db)
                 self.collectionView?.reloadData()
             }
         }
