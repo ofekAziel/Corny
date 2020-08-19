@@ -172,22 +172,19 @@ class MovieDetailsViewController: UIViewController, UITextViewDelegate {
         if editingStyle == .delete {
             let commentToRemove = comments[indexPath.row]
             Firestore.firestore().collection(Constants.Firestore.moviesCollection).document(movie.id).collection("comments")
-            .whereField("createdAt", isEqualTo: commentToRemove.createdAt)
-            .whereField("userId", isEqualTo: currentUser.userUid)
-            .getDocuments(){ (querySnapshot, err) in
-                let commentRef = querySnapshot!.documents.first?.reference
-                if commentRef != nil {
-                commentRef?.delete() { err in
-                    if err != nil {
-                        self.showAlert(alertText: "Can't remove comment")
+                .whereField("createdAt", isEqualTo: commentToRemove.createdAt)
+                .whereField("userId", isEqualTo: currentUser.userUid)
+                .getDocuments(){ (querySnapshot, err) in
+                    let commentRef = querySnapshot!.documents.first?.reference
+                    if commentRef != nil {
+                        commentRef?.delete() { err in
+                            if err != nil {
+                                self.showAlert(alertText: "Can't remove comment")
+                            }
+                        }
                     } else {
-                    self.comments.remove(at: indexPath.row)
-                    tableView.deleteRows(at: [indexPath], with: .fade)
+                        self.showAlert(alertText: "Comment not yours")
                     }
-                }
-                } else {
-                  self.showAlert(alertText: "Comment not yours")
-                }
             }
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
