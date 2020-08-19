@@ -106,8 +106,14 @@ class EditMovieViewController: UIViewController, UIImagePickerControllerDelegate
     }
     
     func saveMovieToDatabase(imageUrl: String) {
+        let moviesRef: DocumentReference
         
-        let moviesRef = Firestore.firestore().collection(Constants.Firestore.moviesCollection).document()
+        if isAddMovie {
+            moviesRef = Firestore.firestore().collection(Constants.Firestore.moviesCollection).document()
+        }
+        else {
+            moviesRef = Firestore.firestore().collection(Constants.Firestore.moviesCollection).document(documentId)
+        }
         
         let movieData = ["name":movieNameTextField.text!, "genre":genreTextField.text!, "actors":actorsTextField.text!, "director":directorTextField.text!, "description":descriptionTextView.text!, "image_url":imageUrl]
         
@@ -116,7 +122,7 @@ class EditMovieViewController: UIViewController, UIImagePickerControllerDelegate
                 self.showAlert(alertText: "Can't save movie data.")
             } else {
                 Utilities.removeSpinner()
-                self.navigationController?.popViewController(animated: true)
+                self.navigationController?.popToRootViewController(animated: true)
             }
         }
     }
