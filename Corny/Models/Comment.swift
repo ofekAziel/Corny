@@ -22,4 +22,13 @@ class Comment {
         self.createdAt = json["createdAt"] as! Timestamp
         self.userId = json["userId"] as! String
     }
+    
+    init(id: String, comment: String, createdAt: String, userId: String) {
+        self.id = id
+        self.comment = comment
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        self.createdAt = Timestamp.init(date: dateFormatter.date(from: createdAt)!)
+        self.userId = userId
+    }
 }

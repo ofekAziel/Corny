@@ -19,6 +19,7 @@ class DBHelper {
         self.db = createDB()
         MovieDB.createMovieTable(database: db)
         UserDB.creatUserTable(database: db)
+        CommentDB.creatCommentTable(database: db)
     }
     
     func createDB () -> OpaquePointer? {
