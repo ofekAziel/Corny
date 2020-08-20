@@ -88,6 +88,7 @@ class MovieDetailsViewController: UIViewController, UITextViewDelegate {
     }
     
     private func getComments() {
+        self.comments = CommentDB.getAllCommentsFromDb(database: DBHelper.instance.db)
         let collectionRef = db.collection(Constants.Firestore.moviesCollection).document(movie.id).collection("comments")
         
         collectionRef.addSnapshotListener { (querySnapshot, err) in
@@ -97,13 +98,14 @@ class MovieDetailsViewController: UIViewController, UITextViewDelegate {
                 for comment in comments {
                     data = comment.data()
                     data.updateValue(comment.documentID, forKey: "documentId")
-                    self.comments.append(Comment(json: data))
+                    CommentDB.addOrUpdateCommentToDb(comment: Comment(json: data), database: DBHelper.instance.db)
                 }
                 
                 self.comments.sort(by: { lhs, rhs in
                     return (lhs.createdAt).dateValue() > (rhs.createdAt).dateValue()
                 })
                 
+                self.comments = CommentDB.getAllCommentsFromDb(database: DBHelper.instance.db)
                 self.tableView?.reloadData()
             }
             
@@ -113,21 +115,20 @@ class MovieDetailsViewController: UIViewController, UITextViewDelegate {
     
     @IBAction func commentBtnPressed(_ sender: Any) {
         let movieCommentsRef = Firestore.firestore().collection(Constants.Firestore.moviesCollection).document(movie.id).collection("comments").document()
-                
         
-        let movieComment = ["comment": self.commentText.text!, "createdAt": Date(), "userId": currentUser.userUid] as [String : Any]
+        let comment: Comment = Comment(id: movieCommentsRef.documentID, comment: self.commentText.text!, createdAt: Date(), userId: currentUser.userUid)
+        let movieComment = ["comment": comment.comment, "createdAt": comment.createdAt, "userId": comment.userId] as [String : Any]
         
         movieCommentsRef.setData(movieComment as [String : Any]) { (err) in
             if err != nil {
                 self.showAlert(alertText: "Can't save comment.")
             } else {
+                CommentDB.addOrUpdateCommentToDb(comment: comment, database: DBHelper.instance.db)
                 self.commentText.text = "Comment..."
                 self.commentText.textColor = UIColor.lightGray
                 self.commentText.resignFirstResponder()
             }
-            
         }
-        
     }
     
     func showAlert(alertText:String) {
