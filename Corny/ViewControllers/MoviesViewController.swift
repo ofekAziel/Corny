@@ -49,6 +49,8 @@ class MoviesViewController: UIViewController {
         let currentUserUid = Auth.auth().currentUser!.uid
         var data: [String: Any] = [:]
         
+        self.currentUser = UserDB.getCurrentUserFromDb(userUid: currentUserUid, database: DBHelper.instance.db)
+        
         db.collection(Constants.Firestore.usersCollection).whereField("user_uid", isEqualTo: currentUserUid).getDocuments() { (querySnapshot, err) in
             if let err = err {
                 self.showAlert(alertText: err.localizedDescription)
@@ -56,7 +58,8 @@ class MoviesViewController: UIViewController {
                 data = querySnapshot!.documents.first!.data()
                 data.updateValue(querySnapshot!.documents.first!.documentID, forKey: "documentId")
                 Utilities.removeSpinner()
-                self.currentUser = User(json: data)
+                UserDB.addOrUpdateUserToDb(user: User(json: data), database: DBHelper.instance.db)
+                self.currentUser = UserDB.getCurrentUserFromDb(userUid: currentUserUid, database: DBHelper.instance.db)
                 
                 if (self.currentUser.isAdmin) {
                     self.createAddButtonOnNavigationBar()

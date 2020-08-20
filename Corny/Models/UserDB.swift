@@ -43,13 +43,15 @@ class UserDB {
         sqlite3_finalize(sqlite3_stmt)
     }
     
-    static func getCurrentUserFromDb(database: OpaquePointer?) -> User {
+    static func getCurrentUserFromDb(userUid: String, database: OpaquePointer?) -> User {
         var sqlite3_stmt: OpaquePointer? = nil
         var data: User!
 
-        if (sqlite3_prepare_v2(database, "SELECT * from USERS WHERE USER_UID = ?;", -1, &sqlite3_stmt, nil)
-            == SQLITE_OK) {
-            if (sqlite3_step(sqlite3_stmt) == SQLITE_OK) {
+        if (sqlite3_prepare_v2(database, "SELECT * from USERS WHERE USER_UID = ?;", -1, &sqlite3_stmt, nil) == SQLITE_OK) {
+            
+            sqlite3_bind_text(sqlite3_stmt, 1, userUid, -1, nil)
+            
+            if (sqlite3_step(sqlite3_stmt) == SQLITE_ROW) {
                 let id = String(cString:sqlite3_column_text(sqlite3_stmt,0)!)
                 let firstName = String(cString:sqlite3_column_text(sqlite3_stmt,1)!)
                 let lastName = String(cString:sqlite3_column_text(sqlite3_stmt,2)!)
@@ -62,5 +64,11 @@ class UserDB {
         
         sqlite3_finalize(sqlite3_stmt)
         return data
+    }
+    
+    static func deleteAllUsers(database: OpaquePointer?) {
+        var sqlite3_stmt: OpaquePointer? = nil
+        sqlite3_prepare_v2(database, "DELETE from USERS;", -1, &sqlite3_stmt, nil)
+        sqlite3_step(sqlite3_stmt)
     }
 }
