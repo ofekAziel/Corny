@@ -23,5 +23,6 @@ struct Constants {
         static let usersCollection = "users"
         static let moviesCollection = "movies"
         static let imagesCollection = "images"
+        static let commentsCollection = "comments"
     }
 }
