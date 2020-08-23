@@ -89,7 +89,7 @@ class CommentDB {
     
     static func deleteAllComments(database: OpaquePointer?) {
         var sqlite3_stmt: OpaquePointer? = nil
-        sqlite3_prepare_v2(database, "DELETE from COMMENTS;", -1, &sqlite3_stmt, nil)
+        sqlite3_prepare_v2(database, "DROP TABLE COMMENTS;", -1, &sqlite3_stmt, nil)
         sqlite3_step(sqlite3_stmt)
     }
 }
