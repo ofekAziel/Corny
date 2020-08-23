@@ -88,12 +88,11 @@ class MovieDetailsViewController: UIViewController, UITextViewDelegate {
     }
     
     private func getComments() {
-        self.comments = CommentDB.getAllCommentsFromDb(database: DBHelper.instance.db)
+        var data: [String: Any] = [:]
+        self.comments = CommentDB.getAllMovieCommentsFromDb(movieId: movie.id, database: DBHelper.instance.db)
         let collectionRef = db.collection(Constants.Firestore.moviesCollection).document(movie.id).collection("comments")
         
         collectionRef.addSnapshotListener { (querySnapshot, err) in
-            var data: [String: Any] = [:]
-            self.comments = []
             if let comments = querySnapshot?.documents {
                 for comment in comments {
                     data = comment.data()
@@ -101,11 +100,7 @@ class MovieDetailsViewController: UIViewController, UITextViewDelegate {
                     CommentDB.addOrUpdateCommentToDb(comment: Comment(json: data), database: DBHelper.instance.db)
                 }
                 
-                self.comments.sort(by: { lhs, rhs in
-                    return (lhs.createdAt).dateValue() > (rhs.createdAt).dateValue()
-                })
-                
-                self.comments = CommentDB.getAllCommentsFromDb(database: DBHelper.instance.db)
+                self.comments = CommentDB.getAllMovieCommentsFromDb(movieId: self.movie.id, database: DBHelper.instance.db)
                 self.tableView?.reloadData()
             }
             
@@ -116,8 +111,8 @@ class MovieDetailsViewController: UIViewController, UITextViewDelegate {
     @IBAction func commentBtnPressed(_ sender: Any) {
         let movieCommentsRef = Firestore.firestore().collection(Constants.Firestore.moviesCollection).document(movie.id).collection("comments").document()
         
-        let comment: Comment = Comment(id: movieCommentsRef.documentID, comment: self.commentText.text!, createdAt: Date(), userId: currentUser.userUid)
-        let movieComment = ["comment": comment.comment, "createdAt": comment.createdAt, "userId": comment.userId] as [String : Any]
+        let comment: Comment = Comment(id: movieCommentsRef.documentID, comment: self.commentText.text!, createdAt: Date(), userId: currentUser.userUid, movieId: movie.id)
+        let movieComment = ["comment": comment.comment, "createdAt": comment.createdAt, "userId": comment.userId, "movieId": comment.movieId] as [String : Any]
         
         movieCommentsRef.setData(movieComment as [String : Any]) { (err) in
             if err != nil {
@@ -171,24 +166,15 @@ class MovieDetailsViewController: UIViewController, UITextViewDelegate {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath)
     {
         if editingStyle == .delete {
-            let commentToRemove = comments[indexPath.row]
-            Firestore.firestore().collection(Constants.Firestore.moviesCollection).document(movie.id).collection("comments")
-                .whereField("createdAt", isEqualTo: commentToRemove.createdAt)
-                .whereField("userId", isEqualTo: currentUser.userUid)
-                .getDocuments(){ (querySnapshot, err) in
-                    let commentRef = querySnapshot!.documents.first?.reference
-                    if commentRef != nil {
-                        commentRef?.delete() { err in
-                            if err != nil {
-                                self.showAlert(alertText: "Can't remove comment")
-                            }
-                        }
-                    } else {
-                        self.showAlert(alertText: "Comment not yours")
-                    }
+            let commentToRemove: Comment = comments[indexPath.row]
+            
+            if (commentToRemove.userId != currentUser.userUid) {
+                self.showAlert(alertText: "Comment not yours")
+            } else {
+                CommentDB.deleteCommentFromDb(commentId: commentToRemove.id, databse: DBHelper.instance.db)
+                Firestore.firestore().collection(Constants.Firestore.moviesCollection).document(movie.id)
+                    .collection(Constants.Firestore.commentsCollection).document(commentToRemove.id).delete()
             }
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
         }
     }
 

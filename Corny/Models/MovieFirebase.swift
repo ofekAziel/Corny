@@ -36,11 +36,24 @@ class MovieFirebase {
     static func deleteMovie(editMovieViewController: UIViewController, view: UIView, movie: Movie, movieImage: StorageReference) {
         Utilities.makeSpinner(view: view)
         FirebaseStorage.deleteMoviePhoto(movieImage: movieImage)
+        deleteMovieComments(movie: movie)
         Firestore.firestore().collection(Constants.Firestore.moviesCollection).document(movie.id).delete() { err in
             if err != nil {
             } else {
                 Utilities.removeSpinner()
                 editMovieViewController.navigationController?.popToRootViewController(animated: true)
+            }
+        }
+    }
+    
+    static func deleteMovieComments(movie: Movie) {
+        let commentCollectionRef: CollectionReference = Firestore.firestore().collection(Constants.Firestore.moviesCollection).document(movie.id).collection(Constants.Firestore.commentsCollection)
+        
+        commentCollectionRef.getDocuments() { (querySnapshot, err)
+            in if let comments = querySnapshot?.documents {
+                for comment in comments {
+                    commentCollectionRef.document(comment.documentID).delete()
+                }
             }
         }
     }

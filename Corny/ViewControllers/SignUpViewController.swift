@@ -26,9 +26,9 @@ class SignUpViewController: UIViewController {
     @IBOutlet weak var errorLabel: UILabel!
     
     override func viewDidLoad() {
-//        MovieDB.deleteAllMovies(database: DBHelper.instance.db) USE JUST IF YOU WANT TO CLEAR ALL ROWS
+//        MovieDB.deleteAllMovies(database: DBHelper.instance.db)
 //        UserDB.deleteAllUsers(database: DBHelper.instance.db) USE JUST IF YOU WANT TO CLEAR ALL ROWS
-//        CommentDB.deleteAllComments(database: DBHelper.instance.db) USE JUST IF YOU WANT TO CLEAR ALL ROWS
+//        CommentDB.deleteAllComments(database: DBHelper.instance.db)
         super.viewDidLoad()
         setUpElements()
     }

@@ -15,18 +15,21 @@ class Comment {
     var comment: String
     var createdAt: Timestamp
     var userId: String
+    var movieId: String
     
     init(json: [String: Any]) {
         self.id = json["documentId"] as! String
         self.comment = json["comment"] as! String
         self.createdAt = json["createdAt"] as! Timestamp
         self.userId = json["userId"] as! String
+        self.movieId = json["movieId"] as! String
     }
     
-    init(id: String, comment: String, createdAt: Date, userId: String) {
+    init(id: String, comment: String, createdAt: Date, userId: String, movieId: String) {
         self.id = id
         self.comment = comment
         self.createdAt = Timestamp(date: createdAt)
         self.userId = userId
+        self.movieId = movieId
     }
 }
