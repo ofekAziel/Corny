@@ -43,7 +43,7 @@ class UserDB {
         sqlite3_finalize(sqlite3_stmt)
     }
     
-    static func getCurrentUserFromDb(userUid: String, database: OpaquePointer?) -> User {
+    static func getCurrentUserFromDb(userUid: String, database: OpaquePointer?) -> User? {
         var sqlite3_stmt: OpaquePointer? = nil
         var data: User!
 
