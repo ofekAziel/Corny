@@ -89,7 +89,7 @@ class CommentDB {
         var sqlite3_stmt: OpaquePointer? = nil
         var data: [Comment] = []
 
-        if (sqlite3_prepare_v2(database, "SELECT * from COMMENTS WHERE movie_id = ? ORDER BY CREATED_AT;", -1, &sqlite3_stmt, nil) == SQLITE_OK) {
+        if (sqlite3_prepare_v2(database, "SELECT * from COMMENTS WHERE movie_id = ? ORDER BY CREATED_AT DESC;", -1, &sqlite3_stmt, nil) == SQLITE_OK) {
             
             sqlite3_bind_text(sqlite3_stmt, 1, movieId, -1, nil)
             
