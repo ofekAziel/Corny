@@ -88,66 +88,6 @@ class EditMovieViewController: UIViewController, UIImagePickerControllerDelegate
         self.present(alert, animated: true, completion: nil)
     }
     
-    func saveMovieToDatabase(imageUrl: String) {
-        let moviesRef: DocumentReference
-        
-        if isAddMovie {
-            moviesRef = Firestore.firestore().collection(Constants.Firestore.moviesCollection).document()
-        }
-        else {
-            moviesRef = Firestore.firestore().collection(Constants.Firestore.moviesCollection).document(movie.id)
-        }
-        
-        let movieData = ["name":movieNameTextField.text!, "genre":genreTextField.text!, "actors":actorsTextField.text!, "director":directorTextField.text!, "description":descriptionTextView.text!, "image_url":imageUrl]
-        
-        moviesRef.setData(movieData) { (err) in
-            if err != nil {
-                self.showAlert(alertText: "Can't save movie data.")
-            } else {
-                Utilities.removeSpinner()
-                self.navigationController?.popToRootViewController(animated: true)
-                
-                let dataDict:[String: String] = ["movieId": moviesRef.documentID]
-
-                 // post a notification
-                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "notificationName"), object: nil, userInfo: dataDict)
-                 // `default` is now a property, not a method call
-            }
-        }
-    }
-    
-    func uploadPhotoAndMovieToFirestore() {
-        Utilities.makeSpinner(view: self.view)
-        guard let image = movieImageView.image, let data = image.jpegData(compressionQuality: 1.0) else {
-            showAlert(alertText: "Something went wrong...")
-            return
-        }
-        
-        let imageName = UUID().uuidString
-        let imageRef = Storage.storage().reference().child(Constants.Storgae.imagesFolder).child(imageName)
-        
-        imageRef.putData(data, metadata: nil) { (metadata, err) in
-            if err != nil {
-                self.showAlert(alertText: "Can't upload photo to storage.")
-                return
-            }
-            
-            imageRef.downloadURL { (url, err) in
-                if err != nil {
-                    self.showAlert(alertText: "Something went wrong...")
-                    return
-                }
-                
-                guard let url = url else {
-                    self.showAlert(alertText: "Something went wrong...")
-                    return
-                }
-                
-                self.saveMovieToDatabase(imageUrl: url.absoluteString)
-            }
-        }
-    }
-    
     func validateFields() -> String? {
         if isTextFieldsEmpty() {
             return "Please fill in all fields."

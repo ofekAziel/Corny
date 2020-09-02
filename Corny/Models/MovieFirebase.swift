@@ -28,6 +28,9 @@ class MovieFirebase {
             if err != nil {
             } else {
                 Utilities.removeSpinner()
+               
+                let dataDict:[String: String] = ["movieId": moviesRef.documentID]
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "notificationName"), object: nil, userInfo: dataDict)
                 editMovieViewController.navigationController?.popToRootViewController(animated: true)
             }
         }
