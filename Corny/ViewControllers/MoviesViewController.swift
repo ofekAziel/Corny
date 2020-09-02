@@ -151,7 +151,7 @@ extension MoviesViewController: UICollectionViewDelegate, UICollectionViewDataSo
         
         cell.contentView.layer.masksToBounds = false
         
-        if(updatedMovies.contains((moviesArr[cellIndex]["documentId"] as? String)!)) {
+        if(updatedMovies.contains(movies[cellIndex].id)) {
             cell.contentView.layer.backgroundColor =
                 UIColor(red: 228.00/255, green: 246.00/255, blue: 248.00/255, alpha: 1.00).cgColor
         } else {
@@ -189,7 +189,7 @@ extension MoviesViewController: UICollectionViewDelegate, UICollectionViewDataSo
         vc?.movie = movies[indexPath.row]
         vc?.currentUser = currentUser
         
-        if let index = updatedMovies.firstIndex(of: moviesArr[indexPath.row]["documentId"] as! String) {
+        if let index = updatedMovies.firstIndex(of: movies[indexPath.row].id) {
             updatedMovies.remove(at: index)
             self.collectionView?.reloadData()
         }

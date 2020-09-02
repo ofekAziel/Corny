@@ -8,6 +8,7 @@
 
 import UIKit
 import FirebaseStorage
+import FirebaseFirestore
 
 class EditMovieViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
@@ -94,7 +95,7 @@ class EditMovieViewController: UIViewController, UIImagePickerControllerDelegate
             moviesRef = Firestore.firestore().collection(Constants.Firestore.moviesCollection).document()
         }
         else {
-            moviesRef = Firestore.firestore().collection(Constants.Firestore.moviesCollection).document(documentId)
+            moviesRef = Firestore.firestore().collection(Constants.Firestore.moviesCollection).document(movie.id)
         }
         
         let movieData = ["name":movieNameTextField.text!, "genre":genreTextField.text!, "actors":actorsTextField.text!, "director":directorTextField.text!, "description":descriptionTextView.text!, "image_url":imageUrl]
