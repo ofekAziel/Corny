@@ -101,7 +101,7 @@ class CommentDB {
                 let movieId = String(cString:sqlite3_column_text(sqlite3_stmt,4)!)
                 
                 let dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = "yyyy-mm-dd hh:mm:ss Z"
+                dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
                 let date: Date = dateFormatter.date(from: createdAt)!
                 
                 let comment = Comment(id: id, comment: commentText, createdAt: date, userId: userUid, movieId: movieId)
