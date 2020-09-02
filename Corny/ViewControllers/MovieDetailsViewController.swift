@@ -22,29 +22,24 @@ class MovieDetailsViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var commentText: UITextView!
     @IBOutlet weak var commentBtn: UIButton!
     
-    var movieDocumentId = ""
+    var movie: Movie!
     var movieImage: StorageReference!
-    var movieName = ""
-    var movieGenre = ""
-    var movieActors = ""
-    var movieDirector = ""
-    var desc = ""
-    var currentUser: [String: Any] = [:]
-    
+    var currentUser: User!
+    var comments: [Comment] = []
     var db: Firestore!
-    var commentsArr: [[String : Any]] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         db = Firestore.firestore()
         
         image.sd_setImage(with: movieImage, placeholderImage: UIImage(named: "defaultMovie.jpg"))
-        name.text = movieName
-        genre.text = movieGenre
-        actors.text = movieActors
-        directors.text = movieDirector
-        movieDesc.text = desc
-        if (currentUser["is_admin"] as! Bool) {
+        name.text = movie.name
+        genre.text = movie.genre
+        actors.text = movie.actors
+        directors.text = movie.director
+        movieDesc.text = movie.description
+        
+        if (currentUser.isAdmin) {
             createEditButtonOnNavigationBar()
         }
         
@@ -93,19 +88,19 @@ class MovieDetailsViewController: UIViewController, UITextViewDelegate {
     }
     
     private func getComments() {
-        let collectionRef = db.collection(Constants.Firestore.moviesCollection).document(movieDocumentId).collection("comments")
+        var data: [String: Any] = [:]
+        self.comments = CommentDB.getAllMovieCommentsFromDb(movieId: movie.id, database: DBHelper.instance.db)
+        let collectionRef = db.collection(Constants.Firestore.moviesCollection).document(movie.id).collection("comments")
         
         collectionRef.addSnapshotListener { (querySnapshot, err) in
-            self.commentsArr = []
             if let comments = querySnapshot?.documents {
                 for comment in comments {
-                    self.commentsArr.append(comment.data())
+                    data = comment.data()
+                    data.updateValue(comment.documentID, forKey: "documentId")
+                    CommentDB.addOrUpdateCommentToDb(comment: Comment(json: data), database: DBHelper.instance.db)
                 }
                 
-                self.commentsArr.sort(by: { lhs, rhs in
-                    return (lhs["createdAt"] as! Timestamp).dateValue() > (rhs["createdAt"] as! Timestamp).dateValue()
-                })
-                
+                self.comments = CommentDB.getAllMovieCommentsFromDb(movieId: self.movie.id, database: DBHelper.instance.db)
                 self.tableView?.reloadData()
             }
             
@@ -114,22 +109,21 @@ class MovieDetailsViewController: UIViewController, UITextViewDelegate {
     
     
     @IBAction func commentBtnPressed(_ sender: Any) {
-        let movieCommentsRef = Firestore.firestore().collection(Constants.Firestore.moviesCollection).document(self.movieDocumentId).collection("comments").document()
-                
+        let movieCommentsRef = Firestore.firestore().collection(Constants.Firestore.moviesCollection).document(movie.id).collection("comments").document()
         
-        let movieComment = ["comment": self.commentText.text!, "createdAt": Date(), "userId": currentUser["user_uid"] ]
+        let comment: Comment = Comment(id: movieCommentsRef.documentID, comment: self.commentText.text!, createdAt: Date(), userId: currentUser.userUid, movieId: movie.id)
+        let movieComment = ["comment": comment.comment, "createdAt": comment.createdAt, "userId": comment.userId, "movieId": comment.movieId] as [String : Any]
         
         movieCommentsRef.setData(movieComment as [String : Any]) { (err) in
             if err != nil {
                 self.showAlert(alertText: "Can't save comment.")
             } else {
+                CommentDB.addOrUpdateCommentToDb(comment: comment, database: DBHelper.instance.db)
                 self.commentText.text = "Comment..."
                 self.commentText.textColor = UIColor.lightGray
                 self.commentText.resignFirstResponder()
             }
-            
         }
-        
     }
     
     func showAlert(alertText:String) {
@@ -149,14 +143,9 @@ class MovieDetailsViewController: UIViewController, UITextViewDelegate {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let destinationVC = segue.destination as! EditMovieViewController
-        destinationVC.documentId = movieDocumentId
+        destinationVC.movie = movie
         destinationVC.isAddMovie = false
         destinationVC.movieImage = movieImage
-        destinationVC.movieName = movieName
-        destinationVC.genre = movieGenre
-        destinationVC.actors = movieActors
-        destinationVC.director = movieDirector
-        destinationVC.movieDescription = desc
     }
  }
  
@@ -167,7 +156,7 @@ class MovieDetailsViewController: UIViewController, UITextViewDelegate {
 
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return commentsArr.count
+        return comments.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -177,27 +166,15 @@ class MovieDetailsViewController: UIViewController, UITextViewDelegate {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath)
     {
         if editingStyle == .delete {
-            let commentToRemove = commentsArr[indexPath.row]
-        Firestore.firestore().collection(Constants.Firestore.moviesCollection).document(self.movieDocumentId).collection("comments")
-            .whereField("createdAt", isEqualTo: commentToRemove["createdAt"])
-            .whereField("userId", isEqualTo: currentUser["user_uid"])
-            .getDocuments(){ (querySnapshot, err) in
-                let commentRef = querySnapshot!.documents.first?.reference
-                if commentRef != nil {
-                commentRef?.delete() { err in
-                    if err != nil {
-                        self.showAlert(alertText: "Can't remove comment")
-                    } else {
-                    self.commentsArr.remove(at: indexPath.row)
-                    tableView.deleteRows(at: [indexPath], with: .fade)
-                    }
-                }
-                } else {
-                  self.showAlert(alertText: "Comment not yours")
-                }
+            let commentToRemove: Comment = comments[indexPath.row]
+            
+            if (commentToRemove.userId != currentUser.userUid) {
+                self.showAlert(alertText: "Comment not yours")
+            } else {
+                CommentDB.deleteCommentFromDb(commentId: commentToRemove.id, databse: DBHelper.instance.db)
+                Firestore.firestore().collection(Constants.Firestore.moviesCollection).document(movie.id)
+                    .collection(Constants.Firestore.commentsCollection).document(commentToRemove.id).delete()
             }
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
         }
     }
 
@@ -207,9 +184,8 @@ class MovieDetailsViewController: UIViewController, UITextViewDelegate {
             as! CommentTableViewCell
         let cellIndex = indexPath.row
         
-        cell.commentText.text = commentsArr[cellIndex]["comment"] as? String
-        
-        let createdAt = commentsArr[cellIndex]["createdAt"] as! Timestamp
+        cell.commentText.text = comments[cellIndex].comment
+        let createdAt = comments[cellIndex].createdAt
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm" //Specify your format that you want
@@ -218,7 +194,7 @@ class MovieDetailsViewController: UIViewController, UITextViewDelegate {
         cell.createdAt.text = strDate
         cell.createdAt.textAlignment = .right
         
-        db.collection(Constants.Firestore.usersCollection).whereField("user_uid", isEqualTo: commentsArr[cellIndex]["userId"]!).getDocuments(){ (querySnapshot, err) in
+        db.collection(Constants.Firestore.usersCollection).whereField("user_uid", isEqualTo: comments[cellIndex].userId).getDocuments(){ (querySnapshot, err) in
         
             let user = querySnapshot!.documents.first?.data()
             

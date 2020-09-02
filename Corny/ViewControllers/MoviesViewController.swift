@@ -13,15 +13,6 @@ import FirebaseStorage
 import FirebaseUI
 import FirebaseAuth
 
-struct movie {
-    var actors: String
-    var description: String
-    var director: String
-    var genre: String
-    var imageUID: String
-    var name: String
-}
-
 class MoviesViewController: UIViewController {
     
     @IBOutlet weak var collectionView : UICollectionView!
@@ -29,9 +20,9 @@ class MoviesViewController: UIViewController {
     var db: Firestore!
     var storageRef: StorageReference!
     var storage: Storage!
-    var moviesArr: [[String : Any]] = []
     var updatedMovies: [String] = []
-    var currentUser: [String: Any] = [:]
+    var movies: [Movie] = []
+    var currentUser: User!
     var collectionViewFlowLayout: UICollectionViewFlowLayout!
     
     override func viewDidLoad() {
@@ -66,13 +57,21 @@ class MoviesViewController: UIViewController {
     
     private func getCurrentUser() {
         let currentUserUid = Auth.auth().currentUser!.uid
+        var data: [String: Any] = [:]
+        
+        self.currentUser = UserDB.getCurrentUserFromDb(userUid: currentUserUid, database: DBHelper.instance.db)
+        
         db.collection(Constants.Firestore.usersCollection).whereField("user_uid", isEqualTo: currentUserUid).getDocuments() { (querySnapshot, err) in
             if let err = err {
                 self.showAlert(alertText: err.localizedDescription)
             } else {
-                self.currentUser = querySnapshot!.documents.first!.data()
+                data = querySnapshot!.documents.first!.data()
+                data.updateValue(querySnapshot!.documents.first!.documentID, forKey: "documentId")
                 Utilities.removeSpinner()
-                if (self.currentUser["is_admin"] as! Bool) {
+                UserDB.addOrUpdateUserToDb(user: User(json: data), database: DBHelper.instance.db)
+                self.currentUser = UserDB.getCurrentUserFromDb(userUid: currentUserUid, database: DBHelper.instance.db)
+                
+                if (self.currentUser.isAdmin) {
                     self.createAddButtonOnNavigationBar()
                 }
             }
@@ -89,15 +88,17 @@ class MoviesViewController: UIViewController {
         var data: [String: Any] = [:]
         let collectionRef = db.collection("movies")
         
+        self.movies = MovieDB.getAllMoviesFromDb(database: DBHelper.instance.db)
+        
         collectionRef.addSnapshotListener { (querySnapshot, err) in
-            self.moviesArr = [];
             if let movies = querySnapshot?.documents {
                 for movie in movies {
                     data = movie.data()
                     data.updateValue(movie.documentID, forKey: "documentId")
-                    self.moviesArr.append(data)
+                    MovieDB.addOrUpdateMovieToDb(movie: Movie(json: data), database: DBHelper.instance.db)
                 }
                 
+                self.movies = MovieDB.getAllMoviesFromDb(database: DBHelper.instance.db)
                 self.collectionView?.reloadData()
             }
         }
@@ -141,7 +142,7 @@ extension MoviesViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return moviesArr.count
+        return movies.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -170,11 +171,11 @@ extension MoviesViewController: UICollectionViewDelegate, UICollectionViewDataSo
         let radius = cell.contentView.layer.cornerRadius
         cell.layer.shadowPath = UIBezierPath(roundedRect: cell.bounds, cornerRadius: radius).cgPath
         
-        cell.movieName.text = moviesArr[cellIndex]["name"] as? String
-        cell.movieGenre.text = moviesArr[cellIndex]["genre"] as? String
+        cell.movieName.text = movies[cellIndex].name
+        cell.movieGenre.text = movies[cellIndex].genre
         
         // Get image url and set it to imageView
-        let url = moviesArr[cellIndex]["image_url"] as! String
+        let url = movies[cellIndex].imageUrl
         let imageRef = self.storage.reference(forURL: url)
         cell.movieImage.sd_setImage(with: imageRef, placeholderImage: UIImage(named: "defaultMovie.jpg"))
         cell.movieImage.contentMode = .scaleAspectFit
@@ -185,12 +186,7 @@ extension MoviesViewController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let vc = storyboard?.instantiateViewController(identifier: "MovieDetailsViewController") as? MovieDetailsViewController
         
-        vc?.movieDocumentId = moviesArr[indexPath.row]["documentId"] as! String
-        vc?.movieName = moviesArr[indexPath.row]["name"] as! String
-        vc?.movieGenre = moviesArr[indexPath.row]["genre"] as! String
-        vc?.movieActors = moviesArr[indexPath.row]["actors"] as! String
-        vc?.movieDirector = moviesArr[indexPath.row]["director"] as! String
-        vc?.desc = moviesArr[indexPath.row]["description"] as! String
+        vc?.movie = movies[indexPath.row]
         vc?.currentUser = currentUser
         
         if let index = updatedMovies.firstIndex(of: moviesArr[indexPath.row]["documentId"] as! String) {
@@ -199,7 +195,7 @@ extension MoviesViewController: UICollectionViewDelegate, UICollectionViewDataSo
         }
         
         // Get image url and set it to imageView
-        let url = moviesArr[indexPath.row]["image_url"] as! String
+        let url = movies[indexPath.row].imageUrl
         let imageRef = self.storage.reference(forURL: url)
         vc?.movieImage = imageRef
         self.navigationController?.pushViewController(vc!, animated: true)

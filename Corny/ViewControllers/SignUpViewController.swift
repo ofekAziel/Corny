@@ -26,6 +26,9 @@ class SignUpViewController: UIViewController {
     @IBOutlet weak var errorLabel: UILabel!
     
     override func viewDidLoad() {
+//        MovieDB.deleteAllMovies(database: DBHelper.instance.db)
+//        UserDB.deleteAllUsers(database: DBHelper.instance.db) USE JUST IF YOU WANT TO CLEAR ALL ROWS
+//        CommentDB.deleteAllComments(database: DBHelper.instance.db)
         super.viewDidLoad()
         setUpElements()
     }
@@ -50,8 +53,8 @@ class SignUpViewController: UIViewController {
             let email = emailTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
             let password = passwordTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
             
+            Utilities.makeSpinner(view: self.view)
             createUser(firstName: firstName, lastName: lastName, email: email, password: password)
-            self.transitionToMovieScreen()
         }
     }
     
@@ -60,14 +63,17 @@ class SignUpViewController: UIViewController {
             if err != nil {
                 Utilities.showError("Error creating user.", errorLabel: self.errorLabel)
             } else {
-                
                 let usersRef = Firestore.firestore().collection(Constants.Firestore.usersCollection).document()
-                
                 let userData = ["user_uid":result!.user.uid, "first_name":firstName, "last_name":lastName, "is_admin":false] as [String : Any]
                 
                 usersRef.setData(userData) { (err) in
                     if err != nil {
                         Utilities.showError("Can't save this movie.", errorLabel: self.errorLabel)
+                    } else {
+                        let user = User(id: usersRef.documentID, firstName: firstName, lastName: lastName, isAdmin: false, userUid: result!.user.uid)
+                        UserDB.addOrUpdateUserToDb(user: user, database: DBHelper.instance.db)
+                        Utilities.removeSpinner()
+                        self.transitionToMovieScreen()
                     }
                 }
             }
