@@ -123,6 +123,12 @@ class EditMovieViewController: UIViewController, UIImagePickerControllerDelegate
             } else {
                 Utilities.removeSpinner()
                 self.navigationController?.popToRootViewController(animated: true)
+                
+                let dataDict:[String: String] = ["movieId": moviesRef.documentID]
+
+                 // post a notification
+                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "notificationName"), object: nil, userInfo: dataDict)
+                 // `default` is now a property, not a method call
             }
         }
     }

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		7E12617C24E4815900E51F4E /* CommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E12617A24E4815900E51F4E /* CommentTableViewCell.swift */; };
 		7E12617D24E4815900E51F4E /* CommentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E12617B24E4815900E51F4E /* CommentTableViewCell.xib */; };
+		7E1392CB25001403003543C4 /* Corny logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E1392CA25001403003543C4 /* Corny logo.png */; };
 		7E2699FF240C582E00FBF52E /* MovieDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2699FE240C582E00FBF52E /* MovieDetailsViewController.swift */; };
 		7E7C1C6F24E9C02B0041716F /* RatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E7C1C6E24E9C02B0041716F /* RatingView.swift */; };
 		7E9B0A6A2406EFF8002A5A12 /* MovieCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E9B0A682406EFF8002A5A12 /* MovieCollectionViewCell.swift */; };
@@ -36,6 +37,7 @@
 		06F577A5EC83D867FCF8C254 /* Pods-Corny.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Corny.release.xcconfig"; path = "Target Support Files/Pods-Corny/Pods-Corny.release.xcconfig"; sourceTree = "<group>"; };
 		7E12617A24E4815900E51F4E /* CommentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTableViewCell.swift; sourceTree = "<group>"; };
 		7E12617B24E4815900E51F4E /* CommentTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CommentTableViewCell.xib; sourceTree = "<group>"; };
+		7E1392CA25001403003543C4 /* Corny logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Corny logo.png"; sourceTree = "<group>"; };
 		7E2699FE240C582E00FBF52E /* MovieDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsViewController.swift; sourceTree = "<group>"; };
 		7E7C1C6E24E9C02B0041716F /* RatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingView.swift; sourceTree = "<group>"; };
 		7E9B0A682406EFF8002A5A12 /* MovieCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -128,6 +130,7 @@
 				A04503A423CF0BFE00156DE0 /* Assets.xcassets */,
 				A04503A623CF0BFE00156DE0 /* LaunchScreen.storyboard */,
 				A04503A923CF0BFE00156DE0 /* Info.plist */,
+				7E1392CA25001403003543C4 /* Corny logo.png */,
 				A04503AF23CF10F400156DE0 /* GoogleService-Info.plist */,
 			);
 			path = Corny;
@@ -240,6 +243,7 @@
 				A04503A323CF0BFD00156DE0 /* Main.storyboard in Resources */,
 				7E12617D24E4815900E51F4E /* CommentTableViewCell.xib in Resources */,
 				A09C4C0323D6FD7F00BFFB45 /* defaultMovie.jpg in Resources */,
+				7E1392CB25001403003543C4 /* Corny logo.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -452,6 +456,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 55UFKU2342;
 				INFOPLIST_FILE = Corny/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -471,6 +476,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 55UFKU2342;
 				INFOPLIST_FILE = Corny/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

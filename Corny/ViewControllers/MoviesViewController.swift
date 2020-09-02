@@ -30,6 +30,7 @@ class MoviesViewController: UIViewController {
     var storageRef: StorageReference!
     var storage: Storage!
     var moviesArr: [[String : Any]] = []
+    var updatedMovies: [String] = []
     var currentUser: [String: Any] = [:]
     var collectionViewFlowLayout: UICollectionViewFlowLayout!
     
@@ -46,11 +47,21 @@ class MoviesViewController: UIViewController {
         let nib = UINib(nibName: "MovieCollectionViewCell", bundle: nil)
         collectionView.register(nib, forCellWithReuseIdentifier: "MovieCell")
         getCurrentUser()
+        
+        // Register to receive notification in your class
+        NotificationCenter.default.addObserver(self, selector: #selector(self.addToUpdatedMovies(_:)), name: NSNotification.Name(rawValue: "notificationName"), object: nil)
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         setupCollectionViewItemSize()
+    }
+    
+    // handle notification
+    @objc func addToUpdatedMovies(_ notification: NSNotification) {
+     if let movieId = notification.userInfo?["movieId"] as? String {
+        updatedMovies.append(movieId)
+     }
     }
     
     private func getCurrentUser() {
@@ -138,7 +149,15 @@ extension MoviesViewController: UICollectionViewDelegate, UICollectionViewDataSo
         let cellIndex = indexPath.row
         
         cell.contentView.layer.masksToBounds = false
-        cell.contentView.layer.backgroundColor = UIColor.white.cgColor
+        
+        if(updatedMovies.contains((moviesArr[cellIndex]["documentId"] as? String)!)) {
+            cell.contentView.layer.backgroundColor =
+                UIColor(red: 228.00/255, green: 246.00/255, blue: 248.00/255, alpha: 1.00).cgColor
+        } else {
+            cell.contentView.layer.backgroundColor = UIColor.white.cgColor
+        }
+        
+        
         cell.contentView.layer.cornerRadius = 12
         cell.layer.masksToBounds = false
         cell.layer.borderColor = UIColor.lightGray.cgColor
@@ -158,6 +177,7 @@ extension MoviesViewController: UICollectionViewDelegate, UICollectionViewDataSo
         let url = moviesArr[cellIndex]["image_url"] as! String
         let imageRef = self.storage.reference(forURL: url)
         cell.movieImage.sd_setImage(with: imageRef, placeholderImage: UIImage(named: "defaultMovie.jpg"))
+        cell.movieImage.contentMode = .scaleAspectFit
         
         return cell
     }
@@ -172,6 +192,11 @@ extension MoviesViewController: UICollectionViewDelegate, UICollectionViewDataSo
         vc?.movieDirector = moviesArr[indexPath.row]["director"] as! String
         vc?.desc = moviesArr[indexPath.row]["description"] as! String
         vc?.currentUser = currentUser
+        
+        if let index = updatedMovies.firstIndex(of: moviesArr[indexPath.row]["documentId"] as! String) {
+            updatedMovies.remove(at: index)
+            self.collectionView?.reloadData()
+        }
         
         // Get image url and set it to imageView
         let url = moviesArr[indexPath.row]["image_url"] as! String
