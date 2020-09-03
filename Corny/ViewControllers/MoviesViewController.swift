@@ -107,8 +107,8 @@ class MoviesViewController: UIViewController {
     private func setupCollectionViewItemSize() {
         if (collectionViewFlowLayout == nil) {
             let screenSize: CGRect = UIScreen.main.bounds
-            let width = ( screenSize.width / 2 ) - 10
-            let height = 250
+            let width = ( screenSize.width / 2 ) - 10 - 10
+            let height = 300
             
             collectionViewFlowLayout = UICollectionViewFlowLayout()
             collectionViewFlowLayout.itemSize = CGSize(width: Int(width), height: height)
@@ -179,6 +179,14 @@ extension MoviesViewController: UICollectionViewDelegate, UICollectionViewDataSo
         let imageRef = self.storage.reference(forURL: url)
         cell.movieImage.sd_setImage(with: imageRef, placeholderImage: UIImage(named: "defaultMovie.jpg"))
         cell.movieImage.contentMode = .scaleAspectFit
+        
+        let rectShape = CAShapeLayer()
+        rectShape.bounds = cell.movieImage.frame
+        rectShape.position = cell.movieImage.center
+        rectShape.path = UIBezierPath(roundedRect: cell.movieImage.bounds, byRoundingCorners: [.topLeft , .topRight , .topLeft], cornerRadii: CGSize(width: 12, height: 12)).cgPath
+
+        //Here I'm masking the textView's layer with rectShape layer
+        cell.movieImage.layer.mask = rectShape
         
         return cell
     }
